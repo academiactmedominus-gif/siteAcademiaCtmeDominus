@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import { ChevronRight, Dumbbell, Award, Flame, Shield, Users, Trophy, Heart } from "lucide-react";
 
 export default function HomePage() {
@@ -11,12 +10,18 @@ export default function HomePage() {
       <section style={{ position: "relative", minHeight: "85vh", display: "flex", alignItems: "center", overflow: "hidden", padding: "6rem 0 4rem 0" }}>
         {/* Background Image overlay */}
         <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, zIndex: -1 }}>
-          <Image
+          <img
             src="/images/hero_bg.png"
             alt="Academia Dominus Interior"
-            fill
-            priority
-            style={{ objectFit: "cover", filter: "brightness(40%) contrast(100%)" }}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              filter: "brightness(40%) contrast(100%)"
+            }}
           />
           <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, background: "linear-gradient(to bottom, rgba(10,13,20,0) 60%, rgba(10,13,20,1) 100%)" }}></div>
         </div>
@@ -80,30 +85,27 @@ export default function HomePage() {
           
           {/* Left Side: Mosaic Grid */}
           <div className="image-mosaic">
-            <div className="mosaic-main" style={{ height: "400px" }}>
-              <Image
+            <div className="mosaic-main" style={{ height: "400px", position: "relative" }}>
+              <img
                 src="/images/hero_bg.png"
                 alt="Treino na Dominus"
-                width={400}
-                height={400}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 className="mosaic-img"
               />
             </div>
-            <div className="mosaic-sub1" style={{ height: "190px" }}>
-              <Image
+            <div className="mosaic-sub1" style={{ height: "190px", position: "relative" }}>
+              <img
                 src="/images/musculacao.png"
                 alt="Musculação"
-                width={400}
-                height={190}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 className="mosaic-img"
               />
             </div>
-            <div className="mosaic-sub2" style={{ height: "190px" }}>
-              <Image
+            <div className="mosaic-sub2" style={{ height: "190px", position: "relative" }}>
+              <img
                 src="/images/multifuncional.png"
                 alt="Multi-Funcional"
-                width={400}
-                height={190}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 className="mosaic-img"
               />
             </div>
@@ -182,12 +184,11 @@ export default function HomePage() {
             
             {/* Musculação Card */}
             <div className="mod-card">
-              <div className="mod-card-img-wrap">
-                <Image
+              <div className="mod-card-img-wrap" style={{ position: "relative" }}>
+                <img
                   src="/images/musculacao.png"
                   alt="Musculação"
-                  fill
-                  style={{ objectFit: "cover" }}
+                  style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }}
                 />
               </div>
               <div className="mod-card-body">
@@ -206,12 +207,11 @@ export default function HomePage() {
 
             {/* Jiu-Jitsu Card */}
             <div className="mod-card">
-              <div className="mod-card-img-wrap">
-                <Image
+              <div className="mod-card-img-wrap" style={{ position: "relative" }}>
+                <img
                   src="/images/jiujitsu.png"
                   alt="Jiu-Jitsu"
-                  fill
-                  style={{ objectFit: "cover" }}
+                  style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }}
                 />
               </div>
               <div className="mod-card-body">
@@ -230,12 +230,11 @@ export default function HomePage() {
 
             {/* Multi-Funcional Card */}
             <div className="mod-card">
-              <div className="mod-card-img-wrap">
-                <Image
+              <div className="mod-card-img-wrap" style={{ position: "relative" }}>
+                <img
                   src="/images/multifuncional.png"
                   alt="Multi-Funcional"
-                  fill
-                  style={{ objectFit: "cover" }}
+                  style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }}
                 />
               </div>
               <div className="mod-card-body">
