@@ -69,3 +69,19 @@ Para restabelecer as imagens reais da academia perdidas durante a limpeza do dir
 2. `/images/musculacao.png` (Pessoa levantando pesos com iluminação amarela neon lateral).
 3. `/images/jiujitsu.png` (Lutadores no tatame com acabamento moderno).
 4. `/images/multifuncional.png` (Pessoa exercitando-se com corda naval em ambiente premium).
+
+---
+
+## 4. Imagens da Seção "Sobre Nós" e Ajuste de Alinhamento
+- As imagens da seção "Sobre Nós" foram atualizadas utilizando os arquivos reais presentes na pasta `/images/sobre/`.
+- Foi ajustada a propriedade `objectPosition` para `"center 80%"` no elemento da imagem `/images/sobre/img (3).jpeg` (foto de grupo) para centralizar verticalmente as pessoas, evitando que as fileiras superior ou inferior fossem cortadas pelo corte automático de `object-fit: cover` em telas horizontais.
+
+---
+
+## 5. Faixa de Modalidades (Carrossel Contínuo Sem Pausas)
+- Reformulada a estrutura do ticker de modalidades (faixa amarela horizontal) dividindo os itens em dois grupos idênticos (`.ticker__group`).
+- Atualizadas as regras de CSS em [globals.css](file:///c:/xampp/htdocs/CtmeDominus/src/app/globals.css) para usar flexbox com `flex-shrink: 0` e animação de translação infinita de `0%` a `-100%` (`ticker-anim-seamless`).
+- Isso removeu as pausas e saltos visuais ao reiniciar, criando uma rolagem de carrossel contínua e fluida.
+
+
+

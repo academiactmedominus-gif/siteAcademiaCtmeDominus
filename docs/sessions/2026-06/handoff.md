@@ -15,7 +15,7 @@ Este documento resume o estado do desenvolvimento do website da Academia Dominus
   - `src/lib/firebase/authContext.tsx`: Context Provider de autenticação que expõe dados da sessão do usuário e o papel de acesso (`student` | `teacher` | `admin`).
   - `src/lib/firebase/firestore.ts`: Métodos de CRUD para posts de blog, perfis de usuários e prescrição de treinos.
 - **Páginas Públicas**:
-  - `src/app/page.tsx`: Landing Page completa com Hero, ticker de modalidades, mosaico de fotos ("Sobre Nós") e cards descritivos das modalidades.
+  - `src/app/page.tsx`: Landing Page completa com Hero, ticker de modalidades (carrossel contínuo sem pausas), mosaico de fotos ("Sobre Nós" com alinhamento vertical customizado de 80% na foto de grupo para focar no time) e cards descritivos das modalidades.
   - `src/app/blog/page.tsx`: Listagem de posts com fallbacks.
   - `src/app/blog/[slug]/page.tsx`: Visualização individual de artigos.
 - **Áreas Restritas (Dashboards)**:

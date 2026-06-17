@@ -64,15 +64,22 @@ export default function HomePage() {
       {/* 2. TICKER RUNNING BANNER */}
       <div className="ticker-wrap">
         <div className="ticker">
-          <span className="ticker__item">✦ Musculação</span>
-          <span className="ticker__item">✦ Jiu-Jitsu</span>
-          <span className="ticker__item">✦ Treinamento Multi-Funcional</span>
-          <span className="ticker__item">✦ Professores Qualificados</span>
-          <span className="ticker__item">✦ Consulte Preços pelo WhatsApp</span>
-          <span className="ticker__item">✦ Alta Performance</span>
-          <span className="ticker__item">✦ Musculação</span>
-          <span className="ticker__item">✦ Jiu-Jitsu</span>
-          <span className="ticker__item">✦ Treinamento Multi-Funcional</span>
+          <div className="ticker__group">
+            <span className="ticker__item">✦ Musculação</span>
+            <span className="ticker__item">✦ Jiu-Jitsu</span>
+            <span className="ticker__item">✦ Treinamento Multi-Funcional</span>
+            <span className="ticker__item">✦ Professores Qualificados</span>
+            <span className="ticker__item">✦ Consulte Preços pelo WhatsApp</span>
+            <span className="ticker__item">✦ Alta Performance</span>
+          </div>
+          <div className="ticker__group" aria-hidden="true">
+            <span className="ticker__item">✦ Musculação</span>
+            <span className="ticker__item">✦ Jiu-Jitsu</span>
+            <span className="ticker__item">✦ Treinamento Multi-Funcional</span>
+            <span className="ticker__item">✦ Professores Qualificados</span>
+            <span className="ticker__item">✦ Consulte Preços pelo WhatsApp</span>
+            <span className="ticker__item">✦ Alta Performance</span>
+          </div>
         </div>
       </div>
 
@@ -84,7 +91,7 @@ export default function HomePage() {
           <div className="image-mosaic">
             <div className="mosaic-main" style={{ height: "400px", position: "relative" }}>
               <img
-                src="/images/hero_bg.png"
+                src="/images/sobre/img (1).jpeg"
                 alt="Treino na Dominus"
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 className="mosaic-img"
@@ -92,7 +99,7 @@ export default function HomePage() {
             </div>
             <div className="mosaic-sub1" style={{ height: "190px", position: "relative" }}>
               <img
-                src="/images/musculacao.png"
+                src="/images/sobre/img (2).jpeg"
                 alt="Musculação"
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 className="mosaic-img"
@@ -100,9 +107,9 @@ export default function HomePage() {
             </div>
             <div className="mosaic-sub2" style={{ height: "190px", position: "relative" }}>
               <img
-                src="/images/multifuncional.png"
+                src="/images/sobre/img (3).jpeg"
                 alt="Multi-Funcional"
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 80%" }}
                 className="mosaic-img"
               />
             </div>

@@ -132,12 +132,20 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 1.1rem;
   border-top: 1px solid rgba(0,0,0,0.1);
   border-bottom: 1px solid rgba(0,0,0,0.1);
+  display: flex;
 }
 
 .ticker {
-  display: inline-block;
-  animation: ticker-anim 25s linear infinite;
-  padding-left: 100%;
+  display: flex;
+  width: max-content;
+}
+
+.ticker__group {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-shrink: 0;
+  animation: ticker-anim-seamless 25s linear infinite;
 }
 
 .ticker__item {
@@ -145,7 +153,7 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0 2rem;
 }
 
-@keyframes ticker-anim {
+@keyframes ticker-anim-seamless {
   0% {
     transform: translate3d(0, 0, 0);
   }
