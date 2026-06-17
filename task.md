@@ -6,7 +6,7 @@ Checklist de implementação do sistema.
   - [x] Inicializar o projeto Next.js com Tailwind CSS (opcional, mas como a instrução global diz para usar CSS Vanilla para máximo controle ou Tailwind se solicitado, e a imagem tem classes bastante flexíveis, usaremos Vanilla CSS estruturado em `globals.css` ou CSS Modules para máxima flexibilidade).
   - [x] Configurar Firebase no projeto: inicializar cliente no arquivo `src/lib/firebase/config.ts`.
   - [x] Configurar as variáveis de ambiente `.env.local` com as credenciais do Firebase.
-  - [x] Escrever as regras de segurança padrão do Firestore e Storage.
+  - [x] Escrever as regras de segurança padrão do Firestore.
 
 - [x] **Etapa 2: Layout e Design System (Seguindo o Template)**
   - [x] Configurar `src/app/globals.css` com paleta de cores Dark/Amarelo, tipografia Outfit/Inter, e resets globais.
@@ -32,7 +32,7 @@ Checklist de implementação do sistema.
   - [x] **Área do Professor (`/dashboard/professor`)**: Painel de gerenciamento onde seleciona-se um aluno e prescreve-se treinos (inserir, alterar e excluir exercícios).
   - [x] **Área do Administrador (`/dashboard/admin`)**:
     - [x] CRUD de usuários: Cadastro de Professores e Alunos com a role associada.
-    - [x] CRUD de Posts de Blog com upload direto no Firebase Storage para a imagem do post.
+    - [x] CRUD de Posts de Blog com upload direto no Vercel Blob Storage para a imagem do post.
 
 - [x] **Etapa 6: Verificação e Polimento**
   - [x] Testar fluxos de rotas protegidas e regras de segurança do Firestore.
