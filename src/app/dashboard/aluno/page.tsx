@@ -168,8 +168,8 @@ export default function StudentDashboard() {
                   </div>
                 </div>
 
-                {/* Workout Exercises Table / Mobile view */}
-                <div style={{ overflowX: "auto" }}>
+                {/* Desktop View Table */}
+                <div className="desktop-table-container" style={{ overflowX: "auto" }}>
                   <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
                     <thead>
                       <tr style={{ borderBottom: "1px solid var(--border-color)", backgroundColor: "rgba(10, 13, 20, 0.3)" }}>
@@ -193,7 +193,6 @@ export default function StudentDashboard() {
                               transition: "background-color 0.2s",
                             }}
                           >
-                            {/* Checkbox cell */}
                             <td style={{ padding: "1rem 1.5rem" }}>
                               <button
                                 onClick={() => toggleExercise(workout.id, idx)}
@@ -210,28 +209,18 @@ export default function StudentDashboard() {
                                 <CheckCircle2 size={24} style={{ fill: isDone ? "var(--primary-color)" : "transparent", color: isDone ? "#0A0D14" : "var(--border-color)" }} />
                               </button>
                             </td>
-                            
-                            {/* Exercise Name */}
                             <td style={{ padding: "1rem 1.5rem", fontWeight: 600, color: isDone ? "var(--text-muted)" : "#fff", textDecoration: isDone ? "line-through" : "none" }}>
                               {exercise.name}
                             </td>
-                            
-                            {/* Machine */}
                             <td style={{ padding: "1rem 1.5rem", color: "var(--text-muted)", fontSize: "0.9rem" }}>
-                              {exercise.machine}
+                              {exercise.machine || "-"}
                             </td>
-                            
-                            {/* Sets */}
                             <td style={{ padding: "1rem 1.5rem", fontWeight: 700, color: isDone ? "var(--text-muted)" : "var(--primary-color)" }}>
                               {exercise.sets}
                             </td>
-                            
-                            {/* Reps */}
                             <td style={{ padding: "1rem 1.5rem", color: isDone ? "var(--text-muted)" : "#fff" }}>
                               {exercise.reps}
                             </td>
-                            
-                            {/* Weight */}
                             <td style={{ padding: "1rem 1.5rem", color: "var(--text-muted)" }}>
                               {exercise.weight || "-"}
                             </td>
@@ -240,6 +229,74 @@ export default function StudentDashboard() {
                       })}
                     </tbody>
                   </table>
+                </div>
+
+                {/* Mobile View Cards */}
+                <div className="mobile-cards-container">
+                  {workout.exercises.map((exercise, idx) => {
+                    const isDone = completedExercises[`${workout.id}-${idx}`] || false;
+                    return (
+                      <div
+                        key={idx}
+                        className={`exercise-card ${isDone ? "done" : ""}`}
+                        onClick={() => toggleExercise(workout.id, idx)}
+                        style={{
+                          cursor: "pointer",
+                          transition: "all 0.2s ease",
+                          borderBottom: "1px solid var(--border-color)",
+                          padding: "1.25rem",
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "0.75rem",
+                          backgroundColor: isDone ? "rgba(212, 255, 0, 0.01)" : "transparent",
+                        }}
+                      >
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "1rem" }}>
+                          <div style={{ flex: 1 }}>
+                            <h4 style={{ fontSize: "1.05rem", fontWeight: 700, color: isDone ? "var(--text-muted)" : "#fff", textDecoration: isDone ? "line-through" : "none", margin: 0 }}>
+                              {exercise.name}
+                            </h4>
+                            <p style={{ fontSize: "0.85rem", color: "var(--text-muted)", margin: "0.25rem 0 0 0" }}>
+                              Aparelho: <strong style={{ color: isDone ? "var(--text-muted)" : "#E2E8F0" }}>{exercise.machine || "-"}</strong>
+                            </p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleExercise(workout.id, idx);
+                            }}
+                            style={{
+                              background: "transparent",
+                              border: "none",
+                              cursor: "pointer",
+                              color: isDone ? "var(--primary-color)" : "var(--border-color)",
+                              padding: 0,
+                              display: "flex",
+                              alignItems: "center",
+                            }}
+                          >
+                            <CheckCircle2 size={26} style={{ fill: isDone ? "var(--primary-color)" : "transparent", color: isDone ? "#0A0D14" : "var(--border-color)" }} />
+                          </button>
+                        </div>
+                        
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr 1fr", gap: "0.5rem", background: "rgba(10, 13, 20, 0.4)", padding: "0.6rem 0.75rem", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.02)" }}>
+                          <div style={{ textAlign: "center" }}>
+                            <span style={{ fontSize: "0.65rem", color: "var(--text-muted)", textTransform: "uppercase", display: "block", marginBottom: "0.15rem", fontWeight: 600 }}>Séries</span>
+                            <strong style={{ fontSize: "1.05rem", color: isDone ? "var(--text-muted)" : "var(--primary-color)" }}>{exercise.sets}</strong>
+                          </div>
+                          <div style={{ textAlign: "center", borderLeft: "1px solid rgba(255,255,255,0.06)", borderRight: "1px solid rgba(255,255,255,0.06)" }}>
+                            <span style={{ fontSize: "0.65rem", color: "var(--text-muted)", textTransform: "uppercase", display: "block", marginBottom: "0.15rem", fontWeight: 600 }}>Repetições</span>
+                            <strong style={{ fontSize: "0.95rem", color: isDone ? "var(--text-muted)" : "#fff" }}>{exercise.reps}</strong>
+                          </div>
+                          <div style={{ textAlign: "center" }}>
+                            <span style={{ fontSize: "0.65rem", color: "var(--text-muted)", textTransform: "uppercase", display: "block", marginBottom: "0.15rem", fontWeight: 600 }}>Carga</span>
+                            <strong style={{ fontSize: "0.95rem", color: isDone ? "var(--text-muted)" : "#fff" }}>{exercise.weight || "-"}</strong>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
 
               </div>
@@ -257,44 +314,35 @@ export default function StudentDashboard() {
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
         }
-        @media (max-width: 600px) {
-          table, thead, tbody, th, td, tr {
-            display: block;
+        .desktop-table-container {
+          display: block;
+        }
+        .mobile-cards-container {
+          display: none;
+        }
+        @media (max-width: 768px) {
+          .desktop-table-container {
+            display: none;
           }
-          thead tr {
-            position: absolute;
-            top: -9999px;
-            left: -9999px;
+          .mobile-cards-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
           }
-          tr {
-            border: 1px solid var(--border-color);
-            margin-bottom: 1rem;
-            border-radius: 8px;
-            padding: 0.5rem;
+          .exercise-card {
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
           }
-          td {
-            border: none;
-            position: relative;
-            padding: 0.5rem 1rem 0.5rem 45% !important;
-            text-align: right;
+          .exercise-card:last-child {
+            border-bottom: none !important;
           }
-          td:before {
-            position: absolute;
-            left: 1rem;
-            width: 40%;
-            white-space: nowrap;
-            text-align: left;
-            font-weight: 700;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            text-transform: uppercase;
+          .exercise-card:hover {
+            background: rgba(255, 255, 255, 0.01) !important;
           }
-          td:nth-of-type(1):before { content: "Concluir"; }
-          td:nth-of-type(2):before { content: "Exercício"; }
-          td:nth-of-type(3):before { content: "Aparelho"; }
-          td:nth-of-type(4):before { content: "Séries"; }
-          td:nth-of-type(5):before { content: "Repetições"; }
-          td:nth-of-type(6):before { content: "Carga"; }
+          .exercise-card.done {
+            background: rgba(212, 255, 0, 0.02) !important;
+            opacity: 0.7;
+          }
         }
       `}</style>
     </div>

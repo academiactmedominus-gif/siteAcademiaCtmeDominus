@@ -461,12 +461,12 @@ export default function TeacherDashboard() {
                         <div style={{ padding: "1.25rem 1.5rem" }}>
                           <ul style={{ display: "flex", flexDirection: "column", gap: "0.5rem", listStyle: "none" }}>
                             {workout.exercises.map((ex, idx) => (
-                              <li key={idx} style={{ display: "grid", gridTemplateColumns: "2.5fr 2fr 1fr 1.5fr 1.5fr", gap: "0.5rem", fontSize: "0.85rem", padding: "0.25rem 0", borderBottom: "1px dashed rgba(30,41,59,0.3)" }}>
-                                <span style={{ fontWeight: 600, color: "#fff" }}>{ex.name}</span>
-                                <span style={{ color: "var(--text-muted)" }}>{ex.machine}</span>
-                                <span style={{ color: "var(--primary-color)", fontWeight: 700 }}>{ex.sets}x</span>
-                                <span>{ex.reps}</span>
-                                <span style={{ color: "var(--text-muted)" }}>{ex.weight || "-"}</span>
+                              <li key={idx} className="workout-exercise-row" style={{ borderBottom: "1px dashed rgba(30,41,59,0.3)" }}>
+                                <span className="ex-name" style={{ fontWeight: 600, color: "#fff" }}>{ex.name}</span>
+                                <span className="ex-machine" style={{ color: "var(--text-muted)" }}>{ex.machine || "-"}</span>
+                                <span className="ex-sets" style={{ color: "var(--primary-color)", fontWeight: 700 }}>{ex.sets}x</span>
+                                <span className="ex-reps">{ex.reps}</span>
+                                <span className="ex-weight" style={{ color: "var(--text-muted)" }}>{ex.weight || "-"}</span>
                               </li>
                             ))}
                           </ul>
@@ -512,6 +512,31 @@ export default function TeacherDashboard() {
         @keyframes spin {
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
+        }
+        .workout-exercise-row {
+          display: grid;
+          grid-template-columns: 2.5fr 2fr 1fr 1.5fr 1.5fr;
+          gap: 0.5rem;
+          font-size: 0.85rem;
+          padding: 0.25rem 0;
+        }
+        @media (max-width: 600px) {
+          .workout-exercise-row {
+            display: flex !important;
+            flex-direction: column;
+            gap: 0.25rem;
+            padding: 0.6rem 0;
+          }
+          .workout-exercise-row .ex-machine {
+            font-size: 0.8rem;
+          }
+          .workout-exercise-row .ex-sets,
+          .workout-exercise-row .ex-reps,
+          .workout-exercise-row .ex-weight {
+            display: inline-block;
+            margin-right: 0.75rem;
+            font-size: 0.8rem;
+          }
         }
         @media (max-width: 900px) {
           .workspace-grid {
