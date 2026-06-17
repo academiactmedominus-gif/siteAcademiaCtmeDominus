@@ -64,6 +64,19 @@ export default function AdminDashboard() {
   const [postImageUrl, setPostImageUrl] = useState("");
   const [creatingPost, setCreatingPost] = useState(false);
 
+  // Toast notifications state
+  const [notification, setNotification] = useState<{ message: string; type: "success" | "error" } | null>(null);
+  // Custom confirmations state
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [deleteConfirmType, setDeleteConfirmType] = useState<"user" | "blog" | null>(null);
+
+  const showNotification = (message: string, type: "success" | "error" = "success") => {
+    setNotification({ message, type });
+    setTimeout(() => {
+      setNotification(null);
+    }, 4000);
+  };
+
   useEffect(() => {
     if (!loading) {
       if (!user) {
@@ -95,7 +108,7 @@ export default function AdminDashboard() {
   const handleCreateUser = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newUserName.trim() || !newUserEmail.trim() || newUserPassword.length < 6) {
-      alert("Por favor, preencha todos os campos. A senha deve conter pelo menos 6 caracteres.");
+      showNotification("Por favor, preencha todos os campos. A senha deve conter pelo menos 6 caracteres.", "error");
       return;
     }
 
@@ -129,10 +142,10 @@ export default function AdminDashboard() {
       setNewUserRole("student");
       
       await loadUsersData();
-      alert(`Usuário ${newUserName} criado com sucesso!`);
+      showNotification(`Usuário ${newUserName} criado com sucesso!`, "success");
     } catch (err: any) {
       console.error(err);
-      alert("Erro ao criar usuário: " + (err.message || err.code));
+      showNotification("Erro ao criar usuário: " + (err.message || err.code), "error");
     } finally {
       setCreatingUser(false);
     }
@@ -140,18 +153,17 @@ export default function AdminDashboard() {
 
   const handleDeleteUser = async (uid: string) => {
     if (uid === user?.uid) {
-      alert("Você não pode deletar sua própria conta de administrador ativa.");
+      showNotification("Você não pode deletar sua própria conta de administrador ativa.", "error");
       return;
     }
-    if (!confirm("Tem certeza que deseja deletar este usuário? Todos os treinos vinculados também serão removidos permanentemente.")) return;
 
     try {
       await deleteUserProfile(uid);
       setUserList(userList.filter((u) => u.uid !== uid));
-      alert("Usuário removido!");
+      showNotification("Usuário removido!", "success");
     } catch (err) {
       console.error(err);
-      alert("Erro ao remover usuário.");
+      showNotification("Erro ao remover usuário.", "error");
     }
   };
 
@@ -159,7 +171,7 @@ export default function AdminDashboard() {
   const handleCreateBlogPost = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!postTitle.trim() || !postSlug.trim() || !postSummary.trim() || !postContent.trim()) {
-      alert("Preencha todos os campos obrigatórios do post.");
+      showNotification("Preencha todos os campos obrigatórios do post.", "error");
       return;
     }
 
@@ -207,24 +219,23 @@ export default function AdminDashboard() {
       setPostImageUrl("");
 
       await loadBlogData();
-      alert("Artigo publicado com sucesso no Blog!");
+      showNotification("Artigo publicado com sucesso no Blog!", "success");
     } catch (err) {
       console.error(err);
-      alert("Erro ao publicar artigo no blog.");
+      showNotification("Erro ao publicar artigo no blog.", "error");
     } finally {
       setCreatingPost(false);
     }
   };
 
   const handleDeletePost = async (id: string) => {
-    if (!confirm("Deseja realmente excluir este artigo do blog?")) return;
     try {
       await deleteDoc(doc(db, "blog", id));
       setBlogList(blogList.filter((p) => p.id !== id));
-      alert("Artigo excluído do blog.");
+      showNotification("Artigo excluído do blog.", "success");
     } catch (err) {
       console.error(err);
-      alert("Erro ao excluir artigo.");
+      showNotification("Erro ao excluir artigo.", "error");
     }
   };
 
@@ -424,7 +435,7 @@ export default function AdminDashboard() {
                                     ? "rgba(239, 68, 68, 0.1)"
                                     : usr.role === "teacher"
                                     ? "rgba(59, 130, 246, 0.1)"
-                                    : "rgba(212, 255, 0, 0.1)",
+                                    : "rgba(var(--primary-rgb), 0.1)",
                                 color:
                                   usr.role === "admin"
                                     ? "#F87171"
@@ -437,19 +448,46 @@ export default function AdminDashboard() {
                             </span>
                           </td>
                           <td style={{ padding: "0.75rem 1rem", textAlign: "center" }}>
-                            <button
-                              onClick={() => handleDeleteUser(usr.uid)}
-                              disabled={usr.uid === user?.uid}
-                              style={{
-                                background: "transparent",
-                                border: "none",
-                                color: usr.uid === user?.uid ? "var(--border-color)" : "#EF4444",
-                                cursor: usr.uid === user?.uid ? "not-allowed" : "pointer",
-                                padding: "0.25rem",
-                              }}
-                            >
-                              <Trash2 size={16} />
-                            </button>
+                            {deleteConfirmId === usr.uid && deleteConfirmType === "user" ? (
+                              <div style={{ display: "flex", gap: "0.25rem", justifyContent: "center" }}>
+                                <button
+                                  onClick={() => {
+                                    handleDeleteUser(usr.uid);
+                                    setDeleteConfirmId(null);
+                                    setDeleteConfirmType(null);
+                                  }}
+                                  style={{ backgroundColor: "#EF4444", border: "none", padding: "0.2rem 0.4rem", borderRadius: "4px", color: "#fff", cursor: "pointer", fontSize: "0.7rem", fontWeight: "bold" }}
+                                >
+                                  Sim
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    setDeleteConfirmId(null);
+                                    setDeleteConfirmType(null);
+                                  }}
+                                  style={{ backgroundColor: "rgba(255,255,255,0.1)", border: "none", padding: "0.2rem 0.4rem", borderRadius: "4px", color: "#fff", cursor: "pointer", fontSize: "0.7rem" }}
+                                >
+                                  Não
+                                </button>
+                              </div>
+                            ) : (
+                              <button
+                                onClick={() => {
+                                  setDeleteConfirmId(usr.uid);
+                                  setDeleteConfirmType("user");
+                                }}
+                                disabled={usr.uid === user?.uid}
+                                style={{
+                                  background: "transparent",
+                                  border: "none",
+                                  color: usr.uid === user?.uid ? "var(--border-color)" : "#EF4444",
+                                  cursor: usr.uid === user?.uid ? "not-allowed" : "pointer",
+                                  padding: "0.25rem",
+                                }}
+                              >
+                                <Trash2 size={16} />
+                              </button>
+                            )}
                           </td>
                         </tr>
                       ))}
@@ -597,25 +635,73 @@ export default function AdminDashboard() {
                         <h4 style={{ color: "#fff", fontSize: "0.95rem", fontWeight: 600, textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{post.title}</h4>
                         <p style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>/{post.slug}</p>
                       </div>
-                      <button
-                        onClick={() => handleDeletePost(post.id)}
-                        style={{
-                          background: "transparent",
-                          border: "none",
-                          color: "#EF4444",
-                          cursor: "pointer",
-                          padding: "0.25rem",
-                          flexShrink: 0,
-                        }}
-                      >
-                        <Trash2 size={16} />
-                      </button>
+                      {deleteConfirmId === post.id && deleteConfirmType === "blog" ? (
+                        <div style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
+                          <button
+                            onClick={() => {
+                              handleDeletePost(post.id);
+                              setDeleteConfirmId(null);
+                              setDeleteConfirmType(null);
+                            }}
+                            style={{ backgroundColor: "#EF4444", border: "none", padding: "0.3rem 0.6rem", borderRadius: "4px", color: "#fff", cursor: "pointer", fontSize: "0.75rem", fontWeight: "bold" }}
+                          >
+                            Sim
+                          </button>
+                          <button
+                            onClick={() => {
+                              setDeleteConfirmId(null);
+                              setDeleteConfirmType(null);
+                            }}
+                            style={{ backgroundColor: "rgba(255,255,255,0.1)", border: "none", padding: "0.3rem 0.6rem", borderRadius: "4px", color: "#fff", cursor: "pointer", fontSize: "0.75rem" }}
+                          >
+                            Não
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => {
+                            setDeleteConfirmId(post.id);
+                            setDeleteConfirmType("blog");
+                          }}
+                          style={{
+                            background: "transparent",
+                            border: "none",
+                            color: "#EF4444",
+                            cursor: "pointer",
+                            padding: "0.25rem",
+                            flexShrink: 0,
+                          }}
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      )}
                     </div>
                   ))}
                 </div>
               )}
             </div>
 
+          </div>
+        )}
+
+        {/* Toast Notification */}
+        {notification && (
+          <div style={{
+            position: "fixed",
+            bottom: "2rem",
+            right: "2rem",
+            backgroundColor: notification.type === "success" ? "#10B981" : "#EF4444",
+            color: "#fff",
+            padding: "1rem 1.5rem",
+            borderRadius: "8px",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
+            zIndex: 9999,
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            fontWeight: 600,
+          }}>
+            <span>{notification.message}</span>
           </div>
         )}
 

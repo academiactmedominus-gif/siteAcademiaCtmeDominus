@@ -173,7 +173,7 @@ export default function StudentDashboard() {
                             key={idx}
                             style={{
                               borderBottom: "1px solid var(--border-color)",
-                              backgroundColor: isDone ? "rgba(212, 255, 0, 0.02)" : "transparent",
+                              backgroundColor: isDone ? "rgba(var(--primary-rgb), 0.02)" : "transparent",
                               transition: "background-color 0.2s",
                             }}
                           >
@@ -191,7 +191,7 @@ export default function StudentDashboard() {
                                   transition: "color 0.2s",
                                 }}
                               >
-                                <CheckCircle2 size={24} style={{ fill: isDone ? "#D4FF00" : "transparent", color: isDone ? "#0A0D14" : "var(--border-color)" }} />
+                                <CheckCircle2 size={24} style={{ fill: isDone ? "var(--primary-color)" : "transparent", color: isDone ? "#0A0D14" : "var(--border-color)" }} />
                               </button>
                             </td>
                             

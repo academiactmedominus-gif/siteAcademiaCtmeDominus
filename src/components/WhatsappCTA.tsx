@@ -26,7 +26,7 @@ export const WhatsappCTA: React.FC = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        boxShadow: "0 4px 20px rgba(212, 255, 0, 0.4)",
+        boxShadow: "0 4px 20px rgba(var(--primary-rgb), 0.4)",
         zIndex: 999,
         transition: "all 0.3s ease",
         textDecoration: "none",

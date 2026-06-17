@@ -13,11 +13,18 @@ export const Header: React.FC = () => {
     <nav className="header-nav">
       <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
         {/* Logo */}
-        <Link href="/" style={{ display: "flex", alignItems: "center", gap: "0.5rem", textDecoration: "none", color: "#fff" }}>
-          <Dumbbell size={28} className="text-yellow" />
-          <span style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "1.5rem", letterSpacing: "1px" }}>
-            DOMINUS<span className="text-yellow">.</span>
-          </span>
+        <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none", margin: 0, padding: 0 }}>
+          <img
+            src="/logo-ctme-dominus.webp"
+            alt="Academia CTME Dominus"
+            style={{
+              height: "65px",
+              width: "auto",
+              display: "block",
+              margin: 0,
+              padding: 0
+            }}
+          />
         </Link>
 
         {/* Desktop Links */}

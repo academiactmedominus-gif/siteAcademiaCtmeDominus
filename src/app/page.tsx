@@ -16,7 +16,7 @@ export default function HomePage() {
             alt="Academia Dominus Interior"
             fill
             priority
-            style={{ objectFit: "cover", filter: "brightness(25%) contrast(105%)" }}
+            style={{ objectFit: "cover", filter: "brightness(40%) contrast(100%)" }}
           />
           <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, background: "linear-gradient(to bottom, rgba(10,13,20,0) 60%, rgba(10,13,20,1) 100%)" }}></div>
         </div>

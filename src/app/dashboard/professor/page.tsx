@@ -33,6 +33,17 @@ export default function TeacherDashboard() {
   const [isEditing, setIsEditing] = useState(false);
   const [saving, setSaving] = useState(false);
 
+  // Toast notification state
+  const [notification, setNotification] = useState<{ message: string; type: "success" | "error" } | null>(null);
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+
+  const showNotification = (message: string, type: "success" | "error" = "success") => {
+    setNotification({ message, type });
+    setTimeout(() => {
+      setNotification(null);
+    }, 4000);
+  };
+
   // Authenticate and fetch students
   useEffect(() => {
     if (!loading) {
@@ -98,7 +109,7 @@ export default function TeacherDashboard() {
     e.preventDefault();
     if (!selectedStudent || !user) return;
     if (exercises.length === 0) {
-      alert("Adicione pelo menos um exercício na ficha.");
+      showNotification("Adicione pelo menos um exercício na ficha.", "error");
       return;
     }
 
@@ -111,17 +122,16 @@ export default function TeacherDashboard() {
       setWorkouts(updated);
       setIsEditing(false);
       setActiveWorkoutId(null);
-      alert("Treino salvo com sucesso!");
+      showNotification("Treino salvo com sucesso!", "success");
     } catch (err) {
       console.error(err);
-      alert("Erro ao salvar treino.");
+      showNotification("Erro ao salvar treino.", "error");
     } finally {
       setSaving(false);
     }
   };
 
   const handleDeleteWorkout = async (id: string) => {
-    if (!confirm("Deseja realmente excluir este treino?")) return;
     try {
       await deleteWorkout(id);
       setWorkouts(workouts.filter((w) => w.id !== id));
@@ -129,10 +139,10 @@ export default function TeacherDashboard() {
         setIsEditing(false);
         setActiveWorkoutId(null);
       }
-      alert("Treino excluído!");
+      showNotification("Treino excluído!", "success");
     } catch (err) {
       console.error(err);
-      alert("Erro ao excluir treino.");
+      showNotification("Erro ao excluir treino.", "error");
     }
   };
 
@@ -411,15 +421,39 @@ export default function TeacherDashboard() {
                         <div style={{ padding: "1rem 1.5rem", borderBottom: "1px solid var(--border-color)", display: "flex", justifyContent: "space-between", alignItems: "center", backgroundColor: "rgba(30, 41, 59, 0.1)" }}>
                           <h4 style={{ color: "#fff", fontWeight: 700 }}>{workout.title}</h4>
                           <div style={{ display: "flex", gap: "0.5rem" }}>
-                            <button onClick={() => handleEditWorkout(workout)} className="btn-outline" style={{ padding: "0.4rem 0.8rem", fontSize: "0.75rem", borderRadius: "6px" }}>
-                              Editar
-                            </button>
-                            <button
-                              onClick={() => handleDeleteWorkout(workout.id)}
-                              style={{ background: "transparent", border: "1px solid rgba(239,68,68,0.3)", padding: "0.4rem 0.8rem", borderRadius: "6px", color: "#EF4444", cursor: "pointer", fontSize: "0.75rem" }}
-                            >
-                              Excluir
-                            </button>
+                            {deleteConfirmId === workout.id ? (
+                              <>
+                                <span style={{ color: "var(--text-muted)", fontSize: "0.75rem", alignSelf: "center" }}>Excluir?</span>
+                                <button
+                                  onClick={() => {
+                                    handleDeleteWorkout(workout.id);
+                                    setDeleteConfirmId(null);
+                                  }}
+                                  style={{ backgroundColor: "#EF4444", border: "none", padding: "0.4rem 0.8rem", borderRadius: "6px", color: "#fff", cursor: "pointer", fontSize: "0.75rem", fontWeight: "bold" }}
+                                >
+                                  Sim
+                                </button>
+                                <button
+                                  onClick={() => setDeleteConfirmId(null)}
+                                  className="btn-outline"
+                                  style={{ padding: "0.4rem 0.8rem", fontSize: "0.75rem", borderRadius: "6px" }}
+                                >
+                                  Não
+                                </button>
+                              </>
+                            ) : (
+                              <>
+                                <button onClick={() => handleEditWorkout(workout)} className="btn-outline" style={{ padding: "0.4rem 0.8rem", fontSize: "0.75rem", borderRadius: "6px" }}>
+                                  Editar
+                                </button>
+                                <button
+                                  onClick={() => setDeleteConfirmId(workout.id)}
+                                  style={{ background: "transparent", border: "1px solid rgba(239,68,68,0.3)", padding: "0.4rem 0.8rem", borderRadius: "6px", color: "#EF4444", cursor: "pointer", fontSize: "0.75rem" }}
+                                >
+                                  Excluir
+                                </button>
+                              </>
+                            )}
                           </div>
                         </div>
 
@@ -447,6 +481,27 @@ export default function TeacherDashboard() {
           </div>
 
         </div>
+
+        {/* Toast Notification */}
+        {notification && (
+          <div style={{
+            position: "fixed",
+            bottom: "2rem",
+            right: "2rem",
+            backgroundColor: notification.type === "success" ? "#10B981" : "#EF4444",
+            color: "#fff",
+            padding: "1rem 1.5rem",
+            borderRadius: "8px",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
+            zIndex: 9999,
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            fontWeight: 600,
+          }}>
+            <span>{notification.message}</span>
+          </div>
+        )}
 
       </div>
 
