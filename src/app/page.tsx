@@ -177,74 +177,80 @@ export default function HomePage() {
           </div>
 
           {/* Cards Grid */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem" }}>
+          <div className="modalidades-showcase">
             
             {/* Musculação Card */}
-            <div className="mod-card">
-              <div className="mod-card-img-wrap" style={{ position: "relative" }}>
-                <img
-                  src="/images/musculacao.png"
-                  alt="Musculação"
-                  style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }}
-                />
-              </div>
-              <div className="mod-card-body">
-                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.5rem" }}>
-                  <Dumbbell size={18} className="text-yellow" />
-                  <h3 style={{ textTransform: "uppercase", fontSize: "1.25rem" }}>Musculação</h3>
+            <div className="modalidade-item">
+              <img
+                src="/images/musculacao.png"
+                alt="Musculação"
+                className="modalidade-item-img"
+              />
+              <div className="modalidade-content">
+                <div className="modalidade-header">
+                  <span className="modalidade-icon">
+                    <Dumbbell size={22} />
+                  </span>
+                  <h3 className="modalidade-title">Musculação</h3>
                 </div>
-                <p style={{ color: "var(--text-muted)", fontSize: "0.9rem", lineHeight: "1.5", marginBottom: "1.5rem" }}>
+                <p className="modalidade-description">
                   Treino de força, ganho de massa muscular, tonificação e reabilitação. Grade ampla de maquinário moderno e suporte técnico contínuo na sala de musculação.
                 </p>
-                <a href={whatsappUrl} target="_blank" rel="noreferrer" className="btn-outline-card">
-                  Consultar Preços
-                </a>
+                <div className="modalidade-cta-wrap">
+                  <a href={whatsappUrl} target="_blank" rel="noreferrer" className="modalidade-btn">
+                    Consultar Preços
+                  </a>
+                </div>
               </div>
             </div>
 
             {/* Jiu-Jitsu Card */}
-            <div className="mod-card">
-              <div className="mod-card-img-wrap" style={{ position: "relative" }}>
-                <img
-                  src="/images/jiujitsu.png"
-                  alt="Jiu-Jitsu"
-                  style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }}
-                />
-              </div>
-              <div className="mod-card-body">
-                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.5rem" }}>
-                  <Trophy size={18} className="text-yellow" />
-                  <h3 style={{ textTransform: "uppercase", fontSize: "1.25rem" }}>Jiu-Jitsu</h3>
+            <div className="modalidade-item">
+              <img
+                src="/images/jiujitsu.png"
+                alt="Jiu-Jitsu"
+                className="modalidade-item-img"
+              />
+              <div className="modalidade-content">
+                <div className="modalidade-header">
+                  <span className="modalidade-icon">
+                    <Trophy size={22} />
+                  </span>
+                  <h3 className="modalidade-title">Jiu-Jitsu</h3>
                 </div>
-                <p style={{ color: "var(--text-muted)", fontSize: "0.9rem", lineHeight: "1.5", marginBottom: "1.5rem" }}>
+                <p className="modalidade-description">
                   Arte suave voltada para defesa pessoal, condicionamento de alta intensidade, disciplina e tática mental. Treinos com tatame estruturado e professores graduados.
                 </p>
-                <a href={whatsappUrl} target="_blank" rel="noreferrer" className="btn-outline-card">
-                  Consultar Preços
-                </a>
+                <div className="modalidade-cta-wrap">
+                  <a href={whatsappUrl} target="_blank" rel="noreferrer" className="modalidade-btn">
+                    Consultar Preços
+                  </a>
+                </div>
               </div>
             </div>
 
             {/* Multi-Funcional Card */}
-            <div className="mod-card">
-              <div className="mod-card-img-wrap" style={{ position: "relative" }}>
-                <img
-                  src="/images/multifuncional.png"
-                  alt="Multi-Funcional"
-                  style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }}
-                />
-              </div>
-              <div className="mod-card-body">
-                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.5rem" }}>
-                  <Flame size={18} className="text-yellow" />
-                  <h3 style={{ textTransform: "uppercase", fontSize: "1.25rem" }}>Multi-Funcional</h3>
+            <div className="modalidade-item">
+              <img
+                src="/images/multifuncional.png"
+                alt="Multi-Funcional"
+                className="modalidade-item-img"
+              />
+              <div className="modalidade-content">
+                <div className="modalidade-header">
+                  <span className="modalidade-icon">
+                    <Flame size={22} />
+                  </span>
+                  <h3 className="modalidade-title">Multi-Funcional</h3>
                 </div>
-                <p style={{ color: "var(--text-muted)", fontSize: "0.9rem", lineHeight: "1.5", marginBottom: "1.5rem" }}>
+                <p className="modalidade-description">
                   Aulas dinâmicas que unem agilidade, força, flexibilidade e capacidade cardiovascular. Exercícios integrados com cordas navais, kettlebells e peso corporal.
                 </p>
-                <a href={whatsappUrl} target="_blank" rel="noreferrer" className="btn-outline-card">
-                  Consultar Preços
-                </a>
+                <div className="modalidade-cta-wrap">
+                  <a href={whatsappUrl} target="_blank" rel="noreferrer" className="modalidade-btn">
+                    Consultar Preços
+                  </a>
+                </div>
               </div>
             </div>
 
