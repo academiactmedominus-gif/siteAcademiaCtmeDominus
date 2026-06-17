@@ -10,9 +10,9 @@ export default function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const images = [
-    { src: "/images/sobre/img (1).jpeg", alt: "Treino na Dominus" },
-    { src: "/images/sobre/img (2).jpeg", alt: "Musculação" },
-    { src: "/images/sobre/img (3).jpeg", alt: "Multi-Funcional" }
+    { src: "/images/sobre/img (1).jpeg", alt: "Treino na Dominus", position: "center" },
+    { src: "/images/sobre/img (2).jpeg", alt: "Musculação", position: "center" },
+    { src: "/images/sobre/img (3).jpeg", alt: "Multi-Funcional", position: "center 30%" }
   ];
 
   const nextSlide = () => {
@@ -156,6 +156,7 @@ export default function HomePage() {
                         src={img.src}
                         alt={img.alt}
                         className="slider-img"
+                        style={{ objectPosition: img.position }}
                       />
                     </div>
                   ))}
