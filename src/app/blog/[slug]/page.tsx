@@ -53,7 +53,7 @@ Um treino de Jiu-Jitsu de 60 minutos consome até 800 calorias, trabalhando inte
   {
     id: "3",
     title: "Treinamento Funcional vs. Musculação: Qual escolher?",
-    slug: "treinamento-funcional-vs-musculacao",
+    slug: "treinamento-functional-vs-musculacao",
     summary: "Análise comparativa das duas modalidades para te ajudar a escolher a ideal de acordo com os seus objetivos pessoais de fitness.",
     content: `A dúvida entre praticar musculação tradicional ou treinamento funcional é muito comum. Ambas as modalidades são excelentes, mas possuem focos e dinâmicas distintas.
 
@@ -76,6 +76,65 @@ A melhor escolha depende dos seus objetivos. Se você busca ganho de massa muscu
     createdAt: new Date("2026-06-15T09:15:00Z"),
   },
 ];
+
+function parseMarkdown(content: string) {
+  const lines = content.replace(/\r\n/g, "\n").split("\n");
+  const blocks: React.ReactNode[] = [];
+  let currentList: string[] = [];
+
+  const renderTextWithBold = (text: string) => {
+    const parts = text.split(/\*\*([^*]+)\*\*/g);
+    return parts.map((part, index) => {
+      if (index % 2 === 1) {
+        return <strong key={index} style={{ color: "#fff", fontWeight: "700" }}>{part}</strong>;
+      }
+      return part;
+    });
+  };
+
+  const flushList = (key: string | number) => {
+    if (currentList.length > 0) {
+      blocks.push(
+        <ul key={`list-${key}`} style={{ paddingLeft: "1.5rem", marginBottom: "1.5rem", listStyleType: "disc" }}>
+          {currentList.map((item, idx) => (
+            <li key={idx} style={{ marginBottom: "0.5rem" }}>
+              {renderTextWithBold(item)}
+            </li>
+          ))}
+        </ul>
+      );
+      currentList = [];
+    }
+  };
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+
+    if (line.startsWith("###")) {
+      flushList(i);
+      const headerText = line.replace("###", "").trim();
+      blocks.push(
+        <h3 key={i} style={{ fontSize: "1.6rem", color: "#fff", marginTop: "2rem", marginBottom: "1rem", fontFamily: "var(--font-display)", fontWeight: "700" }}>
+          {headerText}
+        </h3>
+      );
+    } else if (line.startsWith("-") || line.startsWith("*")) {
+      const itemText = line.replace(/^[-*]/, "").trim();
+      currentList.push(itemText);
+    } else if (line === "") {
+      flushList(i);
+    } else {
+      flushList(i);
+      blocks.push(
+        <p key={i} style={{ marginBottom: "1.5rem" }}>
+          {renderTextWithBold(line)}
+        </p>
+      );
+    }
+  }
+  flushList("final");
+  return blocks;
+}
 
 export default function BlogPostDetailPage() {
   const { slug } = useParams() as { slug: string };
@@ -164,31 +223,7 @@ export default function BlogPostDetailPage() {
 
         {/* Article Content */}
         <div className="article-content" style={{ fontSize: "1.1rem", lineHeight: "1.8", color: "#E2E8F0" }}>
-          {post.content.split("\n\n").map((paragraph, index) => {
-            if (paragraph.startsWith("###")) {
-              return (
-                <h3 key={index} style={{ fontSize: "1.6rem", color: "#fff", marginTop: "2rem", marginBottom: "1rem", textTransform: "uppercase", fontFamily: "var(--font-display)" }}>
-                  {paragraph.replace("###", "").trim()}
-                </h3>
-              );
-            }
-            if (paragraph.startsWith("-")) {
-              return (
-                <ul key={index} style={{ paddingLeft: "1.5rem", marginBottom: "1.5rem" }}>
-                  {paragraph.split("\n").map((li, idx) => (
-                    <li key={idx} style={{ marginBottom: "0.5rem" }}>
-                      {li.replace("-", "").trim()}
-                    </li>
-                  ))}
-                </ul>
-              );
-            }
-            return (
-              <p key={index} style={{ marginBottom: "1.5rem" }}>
-                {paragraph}
-              </p>
-            );
-          })}
+          {parseMarkdown(post.content)}
         </div>
 
       </div>

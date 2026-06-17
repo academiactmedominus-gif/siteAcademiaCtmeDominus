@@ -83,5 +83,11 @@ Para restabelecer as imagens reais da academia perdidas durante a limpeza do dir
 - Atualizadas as regras de CSS em [globals.css](file:///c:/xampp/htdocs/CtmeDominus/src/app/globals.css) para usar flexbox com `flex-shrink: 0` e animação de translação infinita de `0%` a `-100%` (`ticker-anim-seamless`).
 - Isso removeu as pausas e saltos visuais ao reiniciar, criando uma rolagem de carrossel contínua e fluida.
 
+---
 
-
+## 6. Correção de Rota e Novo Renderizador do Blog
+- **Correção da Rota Dinâmica**: Corrigida a estrutura de diretórios de `src/app/blog/[slug/]` (que continha uma subpasta chamada `]`) para `src/app/blog/[slug]/`, solucionando o erro 404 ao acessar artigos individuais.
+- **Renderizador de Markdown Customizado**: Implementada a função `parseMarkdown` em [src/app/blog/[slug]/page.tsx](file:///c:/xampp/htdocs/CtmeDominus/src/app/blog/[slug]/page.tsx) para processar o conteúdo linha por linha.
+  - Corrige o bug em que parágrafos inteiros com apenas uma quebra de linha após um título `###` eram renderizados como títulos gigantes, em negrito e em caixa alta.
+  - Adiciona suporte nativo para negritos usando a sintaxe clássica do Markdown (`**texto**`).
+  - Renderiza corretamente títulos `H3` (respeitando a caixa baixa/alta original do autor) e listas `<ul>`/`<li>`.

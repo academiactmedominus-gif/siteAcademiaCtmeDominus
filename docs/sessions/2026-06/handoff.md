@@ -17,7 +17,7 @@ Este documento resume o estado do desenvolvimento do website da Academia Dominus
 - **Páginas Públicas**:
   - `src/app/page.tsx`: Landing Page completa com Hero, ticker de modalidades (carrossel contínuo sem pausas), mosaico de fotos ("Sobre Nós" com alinhamento vertical customizado de 80% na foto de grupo para focar no time) e cards descritivos das modalidades.
   - `src/app/blog/page.tsx`: Listagem de posts com fallbacks.
-  - `src/app/blog/[slug]/page.tsx`: Visualização individual de artigos.
+  - `src/app/blog/[slug]/page.tsx`: Visualização individual de artigos (corrigido o caminho da pasta da rota dinâmica de `[slug/]` para `[slug]/` e implementado renderizador de Markdown customizado com suporte a negrito, títulos H3 preservando caixa e listas).
 - **Áreas Restritas (Dashboards)**:
   - `src/app/login/page.tsx`: Tela de login segura direcionando usuários para seus respectivos portais.
   - `src/app/dashboard/aluno/page.tsx`: Ficha de treino ativa com tabelas interativas e suporte a marcação de conclusão de exercícios.
