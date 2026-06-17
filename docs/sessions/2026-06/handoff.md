@@ -8,7 +8,7 @@ Este documento resume o estado do desenvolvimento do website da Academia Dominus
 - **Estruturação do Projeto**: Inicializado projeto Next.js (App Router, TypeScript) na raiz `c:\xampp\htdocs\CtmeDominus`.
 - **UI & Design System**: Implementada a folha de estilos `src/app/globals.css` (Design System Dark com amarelo neon, tipografias Outfit e Inter, e resets de layout) e componentes compartilhados:
   - `Header`: Menu transparente responsivo com detecção automática do estado de login do usuário.
-  - `Footer`: Rodapé detalhado com mapa de links, horários de funcionamento e ícones sociais em SVG.
+  - `Footer`: Rodapé detalhado com mapa de links, horários de funcionamento, ícones sociais em SVG e link oficial do Instagram da academia (@ctmedominus).
   - `WhatsappCTA`: Botão flutuante apontando para o contato de preços (+55 48 9914-4413).
 - **Integração com Firebase**:
   - `src/lib/firebase/config.ts`: Configurações de conexão para o Firestore, Auth e Storage.

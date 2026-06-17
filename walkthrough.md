@@ -91,3 +91,9 @@ Para restabelecer as imagens reais da academia perdidas durante a limpeza do dir
   - Corrige o bug em que parágrafos inteiros com apenas uma quebra de linha após um título `###` eram renderizados como títulos gigantes, em negrito e em caixa alta.
   - Adiciona suporte nativo para negritos usando a sintaxe clássica do Markdown (`**texto**`).
   - Renderiza corretamente títulos `H3` (respeitando a caixa baixa/alta original do autor) e listas `<ul>`/`<li>`.
+
+---
+
+## 7. Atualização do Link do Instagram
+- O link do ícone do Instagram no rodapé (componente [Footer.tsx](file:///c:/xampp/htdocs/CtmeDominus/src/components/Footer.tsx)) foi atualizado para apontar diretamente para o perfil oficial da academia: `https://www.instagram.com/ctmedominus/`.
+

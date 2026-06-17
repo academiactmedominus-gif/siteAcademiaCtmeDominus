@@ -20,7 +20,7 @@ export const Footer: React.FC = () => {
           </p>
           <div style={{ display: "flex", gap: "1rem" }}>
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/ctmedominus/"
               target="_blank"
               rel="noreferrer"
               className="social-link"
