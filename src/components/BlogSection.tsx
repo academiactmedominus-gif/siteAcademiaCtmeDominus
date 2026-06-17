@@ -4,6 +4,27 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { getBlogPosts, BlogPost } from "@/lib/firebase/firestore";
 import { Clock, User, ArrowRight, Loader } from "lucide-react";
+import { motion, Variants } from "framer-motion";
+
+const staggerContainer: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15
+    }
+  }
+};
+
+const scaleUp: Variants = {
+  hidden: { opacity: 0, scale: 0.94 },
+  visible: { 
+    opacity: 1, 
+    scale: 1,
+    transition: { type: "spring", stiffness: 90, damping: 14 }
+  }
+};
+
 
 const DEFAULT_POSTS: BlogPost[] = [
   {
@@ -85,9 +106,20 @@ export const BlogSection: React.FC = () => {
           </div>
         ) : (
           /* Cards Grid */
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem" }}>
+          <motion.div 
+            style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem" }}
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+          >
             {posts.map((post) => (
-              <article key={post.id} className="blog-card" style={{ display: "flex", flexDirection: "column", backgroundColor: "var(--bg-surface)", border: "1px solid var(--border-color)", borderRadius: "12px", overflow: "hidden", transition: "all 0.25s ease" }}>
+              <motion.article 
+                key={post.id} 
+                className="blog-card" 
+                variants={scaleUp}
+                style={{ display: "flex", flexDirection: "column", backgroundColor: "var(--bg-surface)", border: "1px solid var(--border-color)", borderRadius: "12px", overflow: "hidden", transition: "all 0.25s ease" }}
+              >
                 <div style={{ position: "relative", height: "200px", width: "100%", borderBottom: "1px solid var(--border-color)" }}>
                   <img
                     src={post.imageUrl}
@@ -125,9 +157,9 @@ export const BlogSection: React.FC = () => {
                     Ler Artigo <ArrowRight size={16} />
                   </Link>
                 </div>
-              </article>
+              </motion.article>
             ))}
-          </div>
+          </motion.div>
         )}
 
       </div>
