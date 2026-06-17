@@ -1,9 +1,27 @@
-import React from "react";
-import { ChevronRight, Dumbbell, Award, Flame, Shield, Users, Trophy, Heart } from "lucide-react";
+"use client";
+
+import React, { useState } from "react";
+import { ChevronRight, ChevronLeft, Dumbbell, Award, Flame, Shield, Users, Trophy } from "lucide-react";
 import BlogSection from "@/components/BlogSection";
 
 export default function HomePage() {
   const whatsappUrl = "https://wa.me/554899144413?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20os%20planos%20da%20Academia%20Dominus.";
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const images = [
+    { src: "/images/sobre/img (1).jpeg", alt: "Treino na Dominus" },
+    { src: "/images/sobre/img (2).jpeg", alt: "Musculação" },
+    { src: "/images/sobre/img (3).jpeg", alt: "Multi-Funcional" }
+  ];
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % images.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + images.length) % images.length);
+  };
 
   return (
     <div>
@@ -87,31 +105,81 @@ export default function HomePage() {
       <section id="about" style={{ padding: "8rem 0", backgroundColor: "var(--bg-color)" }}>
         <div className="container" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "4rem", alignItems: "center" }}>
           
-          {/* Left Side: Mosaic Grid */}
-          <div className="image-mosaic">
-            <div className="mosaic-main">
-              <img
-                src="/images/sobre/img (1).jpeg"
-                alt="Treino na Dominus"
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                className="mosaic-img"
-              />
+          {/* Left Side: Mosaic on Desktop / Slider on Mobile */}
+          <div className="about-image-container">
+            {/* Desktop Mosaic Grid */}
+            <div className="image-mosaic desktop-only">
+              <div className="mosaic-main">
+                <img
+                  src="/images/sobre/img (1).jpeg"
+                  alt="Treino na Dominus"
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  className="mosaic-img"
+                />
+              </div>
+              <div className="mosaic-sub1">
+                <img
+                  src="/images/sobre/img (2).jpeg"
+                  alt="Musculação"
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  className="mosaic-img"
+                />
+              </div>
+              <div className="mosaic-sub2">
+                <img
+                  src="/images/sobre/img (3).jpeg"
+                  alt="Multi-Funcional"
+                  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 80%" }}
+                  className="mosaic-img"
+                />
+              </div>
             </div>
-            <div className="mosaic-sub1">
-              <img
-                src="/images/sobre/img (2).jpeg"
-                alt="Musculação"
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                className="mosaic-img"
-              />
-            </div>
-            <div className="mosaic-sub2">
-              <img
-                src="/images/sobre/img (3).jpeg"
-                alt="Multi-Funcional"
-                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 80%" }}
-                className="mosaic-img"
-              />
+
+            {/* Mobile Image Slider */}
+            <div className="mobile-slider mobile-only">
+              <button 
+                onClick={prevSlide} 
+                className="slider-arrow prev-arrow" 
+                aria-label="Slide anterior"
+              >
+                <ChevronLeft size={20} />
+              </button>
+
+              <div className="slider-viewport">
+                <div 
+                  className="slider-track" 
+                  style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                >
+                  {images.map((img, index) => (
+                    <div className="slider-item" key={index}>
+                      <img
+                        src={img.src}
+                        alt={img.alt}
+                        className="slider-img"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <button 
+                onClick={nextSlide} 
+                className="slider-arrow next-arrow" 
+                aria-label="Próximo slide"
+              >
+                <ChevronRight size={20} />
+              </button>
+
+              <div className="slider-dots">
+                {images.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentSlide(index)}
+                    className={`slider-dot ${currentSlide === index ? "active" : ""}`}
+                    aria-label={`Ir para o slide ${index + 1}`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
 

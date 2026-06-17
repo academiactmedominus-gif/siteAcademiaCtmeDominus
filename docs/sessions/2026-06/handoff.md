@@ -1,49 +1,18 @@
-# Session Handoff - 2026-06-17
+# Handoff Session - 2026-06-17
 
-Este documento resume o estado do desenvolvimento do website da Academia Dominus (CtmeDominus) ao fim desta sessão.
+Sessão de polimento da responsividade mobile do site da Academia Dominus.
 
----
+## Alterações Realizadas
 
-## 1. O que foi feito
-- **Estruturação do Projeto**: Inicializado projeto Next.js (App Router, TypeScript) na raiz `c:\xampp\htdocs\CtmeDominus`.
-- **UI & Design System**: Implementada a folha de estilos `src/app/globals.css` (Design System Dark com amarelo neon, tipografias Outfit e Inter, e resets de layout) e componentes compartilhados:
-  - `Header`: Menu transparente responsivo com detecção automática do estado de login do usuário.
-  - `Footer`: Rodapé detalhado com mapa de links, horários de funcionamento, ícones sociais em SVG e link oficial do Instagram da academia (@ctmedominus).
-  - `WhatsappCTA`: Botão flutuante apontando para o contato de preços (+55 48 9914-4413).
-- **Integração com Firebase**:
-  - `src/lib/firebase/config.ts`: Configurações de conexão para o Firestore, Auth e Storage.
-  - `src/lib/firebase/authContext.tsx`: Context Provider de autenticação que expõe dados da sessão do usuário e o papel de acesso (`student` | `teacher` | `admin`).
-  - `src/lib/firebase/firestore.ts`: Métodos de CRUD para posts de blog, perfis de usuários e prescrição de treinos.
-- **Páginas Públicas**:
-  - `src/app/page.tsx`: Landing Page completa com Hero, ticker de modalidades (carrossel contínuo sem pausas), mosaico de fotos ("Sobre Nós" com alinhamento vertical customizado de 80% na foto de grupo para focar no time) e cards descritivos das modalidades.
-  - `src/app/blog/page.tsx`: Listagem de posts com fallbacks.
-  - `src/app/blog/[slug]/page.tsx`: Visualização individual de artigos (corrigido o caminho da pasta da rota dinâmica de `[slug/]` para `[slug]/` e implementado renderizador de Markdown customizado com suporte a negrito, títulos H3 preservando caixa e listas).
-  - `src/app/login/page.tsx`: Tela de login com integração de botões de Acesso de Teste (Admin, Professor, Aluno) e inicializador dinâmico de contas de teste no Firebase.
-  - `src/app/dashboard/aluno/page.tsx`: Ficha de treino ativa com tabelas interativas e suporte a marcação de conclusão de exercícios.
-  - `src/app/dashboard/professor/page.tsx`: Console de busca de alunos e prescrição dinâmica de fichas de treino.
-  - `src/app/dashboard/admin/page.tsx`: Painel de administração com Abas para CRUD e edição de usuários, controle de ativação/desativação de acesso, visualização rápida de posts (ícone de olho) e prescrição de treinos integrada (mesmo fluxo do professor).
-- **Segurança e Validação**:
-  - Criadas as regras de segurança locais `firestore.rules` e `storage.rules`.
-  - Executado o teste de build (`npm run build`) com **100% de sucesso**.
+### 1. Carrossel de Imagens Mobile (Sobre Nós)
+- **Arquivo modificado**: [page.tsx](file:///c:/xampp/htdocs/CtmeDominus/src/app/page.tsx)
+  - Adicionada a diretiva `"use client"` para permitir manipulação de estado.
+  - Implementado o estado local `currentSlide` e funções de navegação `nextSlide` / `prevSlide`.
+  - Criado o componente HTML/React do carrossel apenas para visualização mobile.
+  - Mantido o mosaico de imagens intocado na versão de desktop.
+- **Arquivo modificado**: [globals.css](file:///c:/xampp/htdocs/CtmeDominus/src/app/globals.css)
+  - Criadas as classes utilitárias de visibilidade `.desktop-only` e `.mobile-only` com media queries baseadas no breakpoint de `768px`.
+  - Estilizado o carrossel móvel com transições suaves de deslizamento, botões circulares de navegação e indicadores (dots) em Amarelo Neon iluminados.
 
----
-
-## 2. Configuração Necessária para Rodar o Projeto
-Para iniciar o servidor localmente ou implantar na Vercel:
-1. Acesse o [Firebase Console](https://console.firebase.google.com/) e crie um projeto.
-2. Ative as seguintes ferramentas no console:
-   - **Authentication** (Habilite o provedor de E-mail e Senha).
-   - **Cloud Firestore** (Inicialize em modo de teste ou de produção e copie as regras presentes no arquivo `firestore.rules`).
-   - **Cloud Storage** (Inicialize e copie as regras presentes no arquivo `storage.rules`).
-3. Crie um aplicativo web dentro do console e copie as chaves de configuração.
-4. Preencha o arquivo `.env.local` na raiz do projeto com as chaves copiadas.
-5. Inicie o servidor de desenvolvimento local:
-   ```bash
-   npm run dev
-   ```
-
----
-
-## 3. Próximos Passos
-- Conectar o repositório git do projeto a uma conta da Vercel.
-- Registrar os administradores diretamente pelo Firebase Console ou criar o primeiro perfil de administrador no painel para iniciar o cadastro dos professores e alunos.
+## Validação Realizada
+- Executado `npm run build` com sucesso completo, sem nenhum aviso de compilação ou de lint.

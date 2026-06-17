@@ -15,7 +15,7 @@ export const Header: React.FC = () => {
         {/* Logo */}
         <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none", margin: 0, padding: 0 }}>
           <img
-            src="/logo-ctme-dominus.webp"
+            src="/logo-ctme-dominus.png"
             alt="Academia CTME Dominus"
             style={{
               height: "65px",
@@ -50,8 +50,8 @@ export const Header: React.FC = () => {
                   role === "admin"
                     ? "/dashboard/admin"
                     : role === "teacher"
-                    ? "/dashboard/professor"
-                    : "/dashboard/aluno"
+                      ? "/dashboard/professor"
+                      : "/dashboard/aluno"
                 }
                 className="btn-outline"
                 style={{ padding: "0.5rem 1.2rem", fontSize: "0.85rem" }}
@@ -142,8 +142,8 @@ export const Header: React.FC = () => {
                   role === "admin"
                     ? "/dashboard/admin"
                     : role === "teacher"
-                    ? "/dashboard/professor"
-                    : "/dashboard/aluno"
+                      ? "/dashboard/professor"
+                      : "/dashboard/aluno"
                 }
                 onClick={() => setIsOpen(false)}
                 className="btn-outline"

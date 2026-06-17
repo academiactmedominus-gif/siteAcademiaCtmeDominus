@@ -5,12 +5,12 @@ export const Footer: React.FC = () => {
   return (
     <footer className="footer-wrap">
       <div className="container" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "2.5rem", marginBottom: "3rem" }}>
-        
+
         {/* Info Column */}
         <div>
           <div style={{ marginBottom: "1.25rem" }}>
             <img
-              src="/logo-ctme-dominus.webp"
+              src="/logo-ctme-dominus.png"
               alt="Academia CTME Dominus"
               style={{ height: "60px", width: "auto", display: "block", margin: 0, padding: 0 }}
             />
