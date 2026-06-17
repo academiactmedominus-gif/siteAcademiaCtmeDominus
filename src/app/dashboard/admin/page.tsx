@@ -294,6 +294,8 @@ export default function AdminDashboard() {
         finalImageUrl = blobData.url;
       }
 
+      const adminName = userList.find(u => u.uid === user?.uid)?.name || "Administrador";
+
       // Save to Firestore
       const blogRef = collection(db, "blog");
       await addDoc(blogRef, {
@@ -302,7 +304,7 @@ export default function AdminDashboard() {
         summary: postSummary.trim(),
         content: postContent.trim(),
         imageUrl: finalImageUrl,
-        author: user?.displayName || "Administrador",
+        author: adminName,
         createdAt: Timestamp.now(),
       });
 
