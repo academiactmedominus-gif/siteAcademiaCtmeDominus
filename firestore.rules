@@ -1,0 +1,38 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper to get user record
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+    
+    // Helper check user role
+    function hasRole(role) {
+      return request.auth != null && getUserData().role == role;
+    }
+
+    // --- Users Collection ---
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow write: if hasRole('admin');
+    }
+
+    // --- Workouts Collection ---
+    match /workouts/{workoutId} {
+      allow read: if request.auth != null && (
+        request.auth.uid == resource.data.studentId || 
+        hasRole('teacher') || 
+        hasRole('admin')
+      );
+      allow write: if hasRole('teacher') || hasRole('admin');
+    }
+
+    // --- Blog Collection ---
+    match /blog/{postId} {
+      allow read: if true; // Publicly readable
+      allow write: if hasRole('admin');
+    }
+  }
+}

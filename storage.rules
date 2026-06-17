@@ -1,0 +1,18 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Helper check user role from Firestore
+    function isAdmin() {
+      return request.auth != null && 
+        firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // --- Blog Images ---
+    match /blog/{allPaths=**} {
+      allow read: if true; // Publicly readable
+      allow write: if isAdmin(); // Only admin can upload/delete
+    }
+  }
+}
