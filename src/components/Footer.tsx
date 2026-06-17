@@ -8,11 +8,12 @@ export const Footer: React.FC = () => {
         
         {/* Info Column */}
         <div>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "1.25rem" }}>
-            <Dumbbell size={24} className="text-yellow" />
-            <span style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "1.35rem", letterSpacing: "1px" }}>
-              DOMINUS<span className="text-yellow">.</span>
-            </span>
+          <div style={{ marginBottom: "1.25rem" }}>
+            <img
+              src="/logo-ctme-dominus.webp"
+              alt="Academia CTME Dominus"
+              style={{ height: "60px", width: "auto", display: "block", margin: 0, padding: 0 }}
+            />
           </div>
           <p style={{ color: "var(--text-muted)", fontSize: "0.9rem", lineHeight: "1.6", marginBottom: "1.5rem" }}>
             Seu corpo aguenta quase tudo. É a sua mente que precisa ser convencida. Venha treinar na academia mais completa da região.
@@ -41,7 +42,7 @@ export const Footer: React.FC = () => {
           <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.75rem", fontSize: "0.9rem", color: "var(--text-muted)" }}>
             <li>Musculação</li>
             <li>Jiu-Jitsu</li>
-            <li>Multi-Funcional / Cross Training</li>
+            <li>Multi-Funcional</li>
           </ul>
         </div>
 
@@ -57,7 +58,7 @@ export const Footer: React.FC = () => {
             </li>
             <li style={{ display: "flex", gap: "0.5rem" }}>
               <MapPin size={18} className="text-yellow" style={{ flexShrink: 0 }} />
-              <span>Av. Principal da Academia, Florianópolis - SC</span>
+              <span>Rua Maria Geraldina Ramos, 271. Carianos, Florianópolis - SC, 88047-620</span>
             </li>
           </ul>
         </div>

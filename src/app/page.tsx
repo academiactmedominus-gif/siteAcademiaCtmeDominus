@@ -1,5 +1,6 @@
 import React from "react";
 import { ChevronRight, Dumbbell, Award, Flame, Shield, Users, Trophy, Heart } from "lucide-react";
+import BlogSection from "@/components/BlogSection";
 
 export default function HomePage() {
   const whatsappUrl = "https://wa.me/554899144413?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20os%20planos%20da%20Academia%20Dominus.";
@@ -251,6 +252,8 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* 5. BLOG SECTION */}
+      <BlogSection />
 
     </div>
   );
