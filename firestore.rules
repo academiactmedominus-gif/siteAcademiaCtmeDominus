@@ -16,7 +16,7 @@ service cloud.firestore {
     // --- Users Collection ---
     match /users/{userId} {
       allow read: if request.auth != null;
-      allow write: if hasRole('admin');
+      allow write: if hasRole('admin') || (request.auth != null && request.auth.uid == userId && request.auth.token.email == 'admin@dominus.com');
     }
 
     // --- Workouts Collection ---
