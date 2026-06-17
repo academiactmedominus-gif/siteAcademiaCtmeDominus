@@ -7,28 +7,24 @@ export default function HomePage() {
   return (
     <div>
       {/* 1. HERO SECTION */}
-      <section style={{ position: "relative", minHeight: "85vh", display: "flex", alignItems: "center", overflow: "hidden", padding: "6rem 0 4rem 0" }}>
-        {/* Background Image overlay */}
-        <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, zIndex: -1 }}>
-          <img
-            src="/images/hero_bg.png"
-            alt="Academia Dominus Interior"
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              filter: "brightness(40%) contrast(100%)"
-            }}
-          />
-          <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, background: "linear-gradient(to bottom, rgba(10,13,20,0) 60%, rgba(10,13,20,1) 100%)" }}></div>
-        </div>
+      <section
+        style={{
+          position: "relative",
+          minHeight: "85vh",
+          display: "flex",
+          alignItems: "center",
+          overflow: "hidden",
+          padding: "6rem 0 4rem 0",
+          backgroundImage: "linear-gradient(to bottom, rgba(10, 13, 20, 0.6) 0%, rgba(10, 13, 20, 0.8) 60%, rgba(10, 13, 20, 1) 100%), url('/images/hero_bg.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat"
+        }}
+      >
 
         <div className="container" style={{ position: "relative", zIndex: 1 }}>
           <div style={{ maxWidth: "680px" }}>
-            <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", lineHeight: "1.1", marginBottom: "1.5rem", textTransform: "uppercase", fontWeight: 900 }}>
+            <h1 style={{ fontSize: "clamp(2.0rem, 4vw, 3.2rem)", lineHeight: "1.1", marginBottom: "1.5rem", textTransform: "uppercase", fontWeight: 900 }}>
               Seu corpo pode <span className="text-yellow">aguentar</span> quase tudo. É a sua <span className="text-yellow">mente</span> que precisa ser convencida.
             </h1>
             <p style={{ color: "var(--text-muted)", fontSize: "1.1rem", lineHeight: "1.6", marginBottom: "2.5rem" }}>
