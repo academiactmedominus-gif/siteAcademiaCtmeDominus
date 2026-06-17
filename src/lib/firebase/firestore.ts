@@ -91,7 +91,7 @@ export interface UserProfile {
 export async function getAllStudents(): Promise<UserProfile[]> {
   try {
     const usersRef = collection(db, "users");
-    const q = query(usersRef, where("role", "==", "student"), orderBy("name", "asc"));
+    const q = query(usersRef, where("role", "==", "student"));
     const snap = await getDocs(q);
     const students: UserProfile[] = [];
     snap.forEach((docSnap) => {
@@ -105,6 +105,8 @@ export async function getAllStudents(): Promise<UserProfile[]> {
         disabled: data.disabled || false,
       });
     });
+    // Sort in memory to avoid requiring a composite index in Firestore
+    students.sort((a, b) => a.name.localeCompare(b.name));
     return students;
   } catch (error) {
     console.error("Error fetching students:", error);
@@ -188,7 +190,7 @@ export interface Workout {
 export async function getStudentWorkouts(studentId: string): Promise<Workout[]> {
   try {
     const workoutsRef = collection(db, "workouts");
-    const q = query(workoutsRef, where("studentId", "==", studentId), orderBy("updatedAt", "desc"));
+    const q = query(workoutsRef, where("studentId", "==", studentId));
     const snap = await getDocs(q);
     const workouts: Workout[] = [];
     snap.forEach((docSnap) => {
@@ -202,6 +204,8 @@ export async function getStudentWorkouts(studentId: string): Promise<Workout[]> 
         exercises: data.exercises || [],
       });
     });
+    // Sort in memory by updatedAt descending to avoid requiring a composite index in Firestore
+    workouts.sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
     return workouts;
   } catch (error) {
     console.error("Error fetching student workouts:", error);
