@@ -4,10 +4,9 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { initializeApp, getApp, getApps } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, deleteDoc, doc, Timestamp } from "firebase/firestore";
 import { useAuth } from "@/lib/firebase/authContext";
-import { db, storage } from "@/lib/firebase/config";
+import { db } from "@/lib/firebase/config";
 import {
   getAllUsers,
   createUserProfile,
@@ -168,12 +167,23 @@ export default function AdminDashboard() {
     try {
       let finalImageUrl = postImageUrl || "/images/hero_bg.png";
 
-      // Upload image to Firebase Storage if selected
+      // Upload image to Vercel Blob via our API route
       if (postImageFile) {
-        const uniqueFileName = `${Date.now()}_${postImageFile.name}`;
-        const fileRef = ref(storage, `blog/${uniqueFileName}`);
-        const snapshot = await uploadBytes(fileRef, postImageFile);
-        finalImageUrl = await getDownloadURL(snapshot.ref);
+        const formData = new FormData();
+        formData.append("file", postImageFile);
+
+        const res = await fetch("/api/blog/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!res.ok) {
+          const errData = await res.json();
+          throw new Error(errData.error || "Erro no upload para o Vercel Blob");
+        }
+
+        const blobData = await res.json();
+        finalImageUrl = blobData.url;
       }
 
       // Save to Firestore
