@@ -86,6 +86,9 @@ export default function LoginPage() {
         }
       }
       
+      // Garante que o testador finalize deslogado na tela de login
+      await auth.signOut();
+      
       setInitMessage(`Contas prontas: ${createdCount} criadas, ${existCount} atualizadas.`);
     } catch (err: any) {
       console.error(err);
@@ -97,6 +100,8 @@ export default function LoginPage() {
 
   // If already logged in, redirect to correct dashboard
   useEffect(() => {
+    if (initializing) return;
+
     if (!authLoading && user && role) {
       if (role === "admin") {
         router.push("/dashboard/admin");
@@ -106,7 +111,7 @@ export default function LoginPage() {
         router.push("/dashboard/aluno");
       }
     }
-  }, [user, role, authLoading, router]);
+  }, [user, role, authLoading, router, initializing]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

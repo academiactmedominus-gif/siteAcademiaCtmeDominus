@@ -16,7 +16,14 @@ service cloud.firestore {
     // --- Users Collection ---
     match /users/{userId} {
       allow read: if request.auth != null;
-      allow write: if hasRole('admin') || (request.auth != null && request.auth.uid == userId && request.auth.token.email == 'admin@dominus.com');
+      allow write: if hasRole('admin') || 
+                   (request.auth != null && request.auth.uid == userId && (
+                     request.auth.token.email == 'admin@dominus.com' ||
+                     request.auth.token.email == 'professor@dominus.com' ||
+                     request.auth.token.email == 'aluno@dominus.com' ||
+                     (resource == null && request.resource.data.role == 'student') ||
+                     (resource != null && resource.data.role == request.resource.data.role)
+                   ));
     }
 
     // --- Workouts Collection ---
