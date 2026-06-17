@@ -51,48 +51,102 @@ export default function LoginPage() {
     ];
 
     try {
+      const uids: Record<string, string> = {};
       let createdCount = 0;
       let existCount = 0;
 
+      // 1. Obter UIDs de cada usuário (criando ou logando)
       for (const item of usersToCreate) {
         try {
           const cred = await createUserWithEmailAndPassword(auth, item.email, item.password);
-          await setDoc(doc(db, "users", cred.user.uid), {
-            email: item.email,
-            name: item.name,
-            role: item.role,
-            createdAt: new Date(),
-          });
+          uids[item.email] = cred.user.uid;
           createdCount++;
         } catch (err: any) {
           if (err.code === "auth/email-already-in-use") {
-            try {
-              const cred = await signInWithEmailAndPassword(auth, item.email, item.password);
-              await setDoc(doc(db, "users", cred.user.uid), {
-                email: item.email,
-                name: item.name,
-                role: item.role,
-                createdAt: new Date(),
-              }, { merge: true });
-              await auth.signOut();
-              existCount++;
-            } catch (loginErr) {
-              console.error("Erro ao verificar/atualizar perfil existente:", loginErr);
-              existCount++;
-            }
+            const cred = await signInWithEmailAndPassword(auth, item.email, item.password);
+            uids[item.email] = cred.user.uid;
+            existCount++;
           } else {
             throw err;
           }
         }
       }
-      
+
+      // 2. Fazer login como Admin para ter privilégios de gravação
+      await signInWithEmailAndPassword(auth, "admin@dominus.com", "admin123456");
+
+      // 3. Gravar perfis no Firestore
+      for (const item of usersToCreate) {
+        const uid = uids[item.email];
+        if (uid) {
+          await setDoc(doc(db, "users", uid), {
+            email: item.email,
+            name: item.name,
+            role: item.role,
+            createdAt: new Date(),
+          }, { merge: true });
+        }
+      }
+
+      // 4. Gravar treinos de teste para o aluno
+      const studentUid = uids["aluno@dominus.com"];
+      const teacherUid = uids["professor@dominus.com"];
+      if (studentUid && teacherUid) {
+        const { collection, addDoc, getDocs, query, where, deleteDoc } = await import("firebase/firestore");
+        const workoutsRef = collection(db, "workouts");
+        
+        // Limpar treinos antigos
+        const q = query(workoutsRef, where("studentId", "==", studentUid));
+        const snap = await getDocs(q);
+        for (const docSnap of snap.docs) {
+          await deleteDoc(doc(db, "workouts", docSnap.id));
+        }
+
+        const sampleWorkouts = [
+          {
+            studentId: studentUid,
+            teacherId: teacherUid,
+            title: "Treino A - Membros Superiores (Peito, Tríceps e Ombros)",
+            updatedAt: new Date(),
+            exercises: [
+              { name: "Supino Reto na Máquina", machine: "Máquina 04 (Articulado)", sets: 4, reps: "10-12", weight: "15kg cada lado" },
+              { name: "Pec Deck / Voador", machine: "Máquina 08", sets: 3, reps: "12", weight: "40kg" },
+              { name: "Desenvolvimento de Ombros", machine: "Halteres de Ferro", sets: 4, reps: "10", weight: "12kg cada" },
+              { name: "Elevação Lateral", machine: "Halteres / Polia", sets: 3, reps: "12-15", weight: "8kg" },
+              { name: "Tríceps Pulley", machine: "Polia Alta / Crossover", sets: 4, reps: "12", weight: "25kg" },
+              { name: "Tríceps Testa com Barra", machine: "Banco Plano / Barra W", sets: 3, reps: "10", weight: "5kg cada lado" },
+            ],
+          },
+          {
+            studentId: studentUid,
+            teacherId: teacherUid,
+            title: "Treino B - Membros Inferiores (Quadríceps, Posterior e Panturrilha)",
+            updatedAt: new Date(),
+            exercises: [
+              { name: "Leg Press 45º", machine: "Máquina 15", sets: 4, reps: "12", weight: "120kg total" },
+              { name: "Cadeira Extensora", machine: "Máquina 11", sets: 4, reps: "10-12 (Pausa de 2s)", weight: "50kg" },
+              { name: "Mesa Flexora", machine: "Máquina 12", sets: 4, reps: "12", weight: "30kg" },
+              { name: "Cadeira Adutora", machine: "Máquina 14", sets: 3, reps: "15", weight: "45kg" },
+              { name: "Panturrilha Sentado", machine: "Gêmeos Sentado", sets: 4, reps: "15-20", weight: "35kg" },
+            ],
+          }
+        ];
+
+        for (const w of sampleWorkouts) {
+          await addDoc(workoutsRef, w);
+        }
+      }
+
       // Garante que o testador finalize deslogado na tela de login
       await auth.signOut();
       
-      setInitMessage(`Contas prontas: ${createdCount} criadas, ${existCount} atualizadas.`);
+      setInitMessage(`Contas e treinos de teste prontos! (${createdCount} criadas, ${existCount} atualizadas).`);
     } catch (err: any) {
       console.error(err);
       setError("Erro ao inicializar contas de teste: " + (err.message || "Erro desconhecido"));
+      try {
+        await auth.signOut();
+      } catch (e) {}
     } finally {
       setInitializing(false);
     }
