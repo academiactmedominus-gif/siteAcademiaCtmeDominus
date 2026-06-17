@@ -8,7 +8,7 @@ Sessão de polimento da responsividade mobile do site da Academia Dominus.
 - **Arquivo modificado**: [page.tsx](file:///c:/xampp/htdocs/CtmeDominus/src/app/page.tsx)
   - Adicionada a diretiva `"use client"` para permitir manipulação de estado.
   - Implementado o estado local `currentSlide` e funções de navegação `nextSlide` / `prevSlide`.
-  - Adicionado suporte a posicionamento customizado (`objectPosition`) por imagem. A Imagem 3 (foto do grupo) foi ajustada para `center 85%` para focar na parte inferior onde as pessoas (em pé e de joelhos) estão localizadas, ocultando o teto excessivo.
+  - Adicionado suporte a posicionamento customizado (`objectPosition`) por imagem. A Imagem 3 (foto do grupo) foi ajustada para `center 75%` para enquadrar perfeitamente tanto a fila de cima quanto a de baixo, cortando o excesso de teto e centralizando as pessoas.
   - Criado o componente HTML/React do carrossel apenas para visualização mobile.
   - Mantido o mosaico de imagens intocado na versão de desktop.
 - **Arquivo modificado**: [globals.css](file:///c:/xampp/htdocs/CtmeDominus/src/app/globals.css)

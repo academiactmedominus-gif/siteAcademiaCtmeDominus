@@ -12,7 +12,7 @@ export default function HomePage() {
   const images = [
     { src: "/images/sobre/img (1).jpeg", alt: "Treino na Dominus", position: "center" },
     { src: "/images/sobre/img (2).jpeg", alt: "Musculação", position: "center" },
-    { src: "/images/sobre/img (3).jpeg", alt: "Multi-Funcional", position: "center 85%" }
+    { src: "/images/sobre/img (3).jpeg", alt: "Multi-Funcional", position: "center 75%" }
   ];
 
   const nextSlide = () => {
