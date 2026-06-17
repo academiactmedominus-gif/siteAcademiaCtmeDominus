@@ -89,7 +89,7 @@ export default function HomePage() {
           
           {/* Left Side: Mosaic Grid */}
           <div className="image-mosaic">
-            <div className="mosaic-main" style={{ height: "400px", position: "relative" }}>
+            <div className="mosaic-main">
               <img
                 src="/images/sobre/img (1).jpeg"
                 alt="Treino na Dominus"
@@ -97,7 +97,7 @@ export default function HomePage() {
                 className="mosaic-img"
               />
             </div>
-            <div className="mosaic-sub1" style={{ height: "190px", position: "relative" }}>
+            <div className="mosaic-sub1">
               <img
                 src="/images/sobre/img (2).jpeg"
                 alt="Musculação"
@@ -105,7 +105,7 @@ export default function HomePage() {
                 className="mosaic-img"
               />
             </div>
-            <div className="mosaic-sub2" style={{ height: "190px", position: "relative" }}>
+            <div className="mosaic-sub2">
               <img
                 src="/images/sobre/img (3).jpeg"
                 alt="Multi-Funcional"

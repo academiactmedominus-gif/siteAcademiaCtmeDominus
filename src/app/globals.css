@@ -173,16 +173,22 @@ h1, h2, h3, h4, h5, h6 {
 .mosaic-main {
   grid-column: 1 / 7;
   grid-row: 1 / 3;
+  height: 400px;
+  position: relative;
 }
 
 .mosaic-sub1 {
   grid-column: 7 / 13;
   grid-row: 1 / 2;
+  height: 190px;
+  position: relative;
 }
 
 .mosaic-sub2 {
   grid-column: 7 / 13;
   grid-row: 2 / 3;
+  height: 190px;
+  position: relative;
 }
 
 .mosaic-img {
@@ -254,15 +260,21 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 0 0 2px rgba(212, 255, 0, 0.1);
 }
 
-/* Responsive utilities */
 @media (max-width: 768px) {
   .image-mosaic {
     grid-template-columns: 1fr;
   }
-  .mosaic-main, .mosaic-sub1, .mosaic-sub2 {
+  .mosaic-main {
     grid-column: 1 / -1;
     grid-row: auto;
-    height: 250px;
+    height: 320px;
+    position: relative;
+  }
+  .mosaic-sub1, .mosaic-sub2 {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    height: 240px;
+    position: relative;
   }
 }
 
