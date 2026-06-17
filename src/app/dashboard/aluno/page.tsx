@@ -45,6 +45,7 @@ export default function StudentDashboard() {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [loadingWorkouts, setLoadingWorkouts] = useState(true);
   const [completedExercises, setCompletedExercises] = useState<Record<string, boolean>>({});
+  const [studentName, setStudentName] = useState("Aluno");
 
   useEffect(() => {
     if (!loading) {
@@ -56,11 +57,26 @@ export default function StudentDashboard() {
           router.push("/dashboard/professor");
         }
       } else {
-        // Fetch workouts for this student
+        // Fetch workouts and student profile details
         loadWorkouts();
+        fetchStudentName();
       }
     }
   }, [user, role, loading, router]);
+
+  const fetchStudentName = async () => {
+    if (!user) return;
+    try {
+      const { doc, getDoc } = await import("firebase/firestore");
+      const { db } = await import("@/lib/firebase/config");
+      const docSnap = await getDoc(doc(db, "users", user.uid));
+      if (docSnap.exists()) {
+        setStudentName(docSnap.data().name || "Aluno");
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const loadWorkouts = async () => {
     if (!user) return;
@@ -115,7 +131,7 @@ export default function StudentDashboard() {
             Ficha de Treino Ativa
           </span>
           <h1 style={{ fontSize: "2.25rem", fontWeight: 900, textTransform: "uppercase" }}>
-            Olá, {user?.displayName || "Aluno"}!
+            Olá, {studentName}!
           </h1>
           <p style={{ color: "var(--text-muted)", fontSize: "0.95rem", marginTop: "0.5rem", maxWidth: "600px" }}>
             Aqui estão suas rotinas de exercícios prescritas. Use esta página no celular durante o treino para marcar seus exercícios concluídos!
