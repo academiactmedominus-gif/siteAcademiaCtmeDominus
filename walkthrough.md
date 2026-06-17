@@ -97,3 +97,13 @@ Para restabelecer as imagens reais da academia perdidas durante a limpeza do dir
 ## 7. Atualização do Link do Instagram
 - O link do ícone do Instagram no rodapé (componente [Footer.tsx](file:///c:/xampp/htdocs/CtmeDominus/src/components/Footer.tsx)) foi atualizado para apontar diretamente para o perfil oficial da academia: `https://www.instagram.com/ctmedominus/`.
 
+---
+
+## 8. Novas Funcionalidades para Teste e Administração do Sistema
+- **Painel de Acesso de Teste no Frontend**: Adicionado um bloco visual "Acesso de Teste" na tela de login `/login` com 3 botões (Admin, Professor, Aluno). Um clique preenche e permite logar instantaneamente.
+- **Inicializador Inteligente**: Incluído botão "Inicializar contas de teste no Firebase" para criar programaticamente as três credenciais (`admin@dominus.com`, `professor@dominus.com`, `aluno@dominus.com`) e seus perfis no Firestore caso o banco esteja limpo.
+- **Visualização de Artigos (Blog Admin)**: Adicionado botão de visualização (ícone de olho) ao lado de cada post de blog na listagem administrativa para verificar o layout final do artigo.
+- **Edição de Cadastro de Usuários (Admin)**: Implementado modo de edição de cadastro para alterar Nome, E-mail e Papel de qualquer usuário diretamente no Firestore.
+- **Desativação de Usuários**: Adicionado ícone de status (Ativo/Desativado) que bloqueia ou libera o acesso de qualquer usuário. O fluxo de autenticação foi modificado para recusar logins e desconectar automaticamente contas desativadas.
+- **Integração de Prescrição no Admin**: O administrador agora possui acesso completo à aba "Treinos" dentro do seu próprio dashboard, permitindo buscar alunos e gerenciar fichas e exercícios com as mesmas funcionalidades do professor.
+

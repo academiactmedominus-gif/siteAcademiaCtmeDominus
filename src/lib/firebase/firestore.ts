@@ -85,6 +85,7 @@ export interface UserProfile {
   name: string;
   role: "student" | "teacher" | "admin";
   createdAt: Date;
+  disabled?: boolean;
 }
 
 export async function getAllStudents(): Promise<UserProfile[]> {
@@ -101,6 +102,7 @@ export async function getAllStudents(): Promise<UserProfile[]> {
         name: data.name || "",
         role: "student",
         createdAt: data.createdAt ? (data.createdAt as Timestamp).toDate() : new Date(),
+        disabled: data.disabled || false,
       });
     });
     return students;
@@ -124,6 +126,7 @@ export async function getAllUsers(): Promise<UserProfile[]> {
         name: data.name || "",
         role: data.role || "student",
         createdAt: data.createdAt ? (data.createdAt as Timestamp).toDate() : new Date(),
+        disabled: data.disabled || false,
       });
     });
     return users;

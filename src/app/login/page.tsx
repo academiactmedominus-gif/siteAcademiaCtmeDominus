@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase/config";
 import { useAuth } from "@/lib/firebase/authContext";
 import { Dumbbell, Lock, Mail, Loader, AlertCircle } from "lucide-react";
@@ -16,6 +16,84 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [initializing, setInitializing] = useState(false);
+  const [initMessage, setInitMessage] = useState("");
+
+  const handleQuickFill = (testEmail: string, testPass: string) => {
+    setEmail(testEmail);
+    setPassword(testPass);
+  };
+
+  const handleInitializeTestAccounts = async () => {
+    setInitializing(true);
+    setError("");
+    setInitMessage("");
+    
+    const usersToCreate = [
+      {
+        email: "admin@dominus.com",
+        password: "admin123456",
+        name: "Administrador Dominus",
+        role: "admin",
+      },
+      {
+        email: "professor@dominus.com",
+        password: "professor123456",
+        name: "Professor Teste",
+        role: "teacher",
+      },
+      {
+        email: "aluno@dominus.com",
+        password: "aluno123456",
+        name: "Aluno Teste",
+        role: "student",
+      },
+    ];
+
+    try {
+      let createdCount = 0;
+      let existCount = 0;
+
+      for (const item of usersToCreate) {
+        try {
+          const cred = await createUserWithEmailAndPassword(auth, item.email, item.password);
+          await setDoc(doc(db, "users", cred.user.uid), {
+            email: item.email,
+            name: item.name,
+            role: item.role,
+            createdAt: new Date(),
+          });
+          createdCount++;
+        } catch (err: any) {
+          if (err.code === "auth/email-already-in-use") {
+            try {
+              const cred = await signInWithEmailAndPassword(auth, item.email, item.password);
+              await setDoc(doc(db, "users", cred.user.uid), {
+                email: item.email,
+                name: item.name,
+                role: item.role,
+                createdAt: new Date(),
+              }, { merge: true });
+              await auth.signOut();
+              existCount++;
+            } catch (loginErr) {
+              console.error("Erro ao verificar/atualizar perfil existente:", loginErr);
+              existCount++;
+            }
+          } else {
+            throw err;
+          }
+        }
+      }
+      
+      setInitMessage(`Contas prontas: ${createdCount} criadas, ${existCount} atualizadas.`);
+    } catch (err: any) {
+      console.error(err);
+      setError("Erro ao inicializar contas de teste: " + (err.message || "Erro desconhecido"));
+    } finally {
+      setInitializing(false);
+    }
+  };
 
   // If already logged in, redirect to correct dashboard
   useEffect(() => {
@@ -45,7 +123,14 @@ export default function LoginPage() {
       const userDocSnap = await getDoc(userDocRef);
 
       if (userDocSnap.exists()) {
-        const userRole = userDocSnap.data().role;
+        const userData = userDocSnap.data();
+        if (userData.disabled) {
+          setError("Acesso desativado. Entre em contato com a administração.");
+          await auth.signOut();
+          setLoading(false);
+          return;
+        }
+        const userRole = userData.role;
         if (userRole === "admin") {
           router.push("/dashboard/admin");
         } else if (userRole === "teacher") {
@@ -155,6 +240,98 @@ export default function LoginPage() {
 
         </form>
 
+        {/* Test Accounts Section */}
+        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", margin: "1.5rem 0 1rem 0", color: "var(--text-muted)", fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "1px" }}>
+          <div style={{ flex: 1, height: "1px", backgroundColor: "var(--border-color)" }} />
+          <span>Acesso de Teste</span>
+          <div style={{ flex: 1, height: "1px", backgroundColor: "var(--border-color)" }} />
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.5rem" }}>
+            <button
+              type="button"
+              onClick={() => handleQuickFill("admin@dominus.com", "admin123456")}
+              className="test-account-btn admin-btn"
+              style={{
+                background: "rgba(212, 255, 0, 0.05)",
+                border: "1px solid rgba(212, 255, 0, 0.2)",
+                borderRadius: "8px",
+                padding: "0.6rem 0.25rem",
+                color: "#D4FF00",
+                fontSize: "0.75rem",
+                fontWeight: 600,
+                cursor: "pointer",
+                transition: "all 0.2s ease",
+                textAlign: "center"
+              }}
+            >
+              Admin
+            </button>
+            <button
+              type="button"
+              onClick={() => handleQuickFill("professor@dominus.com", "professor123456")}
+              className="test-account-btn teacher-btn"
+              style={{
+                background: "rgba(6, 182, 212, 0.05)",
+                border: "1px solid rgba(6, 182, 212, 0.2)",
+                borderRadius: "8px",
+                padding: "0.6rem 0.25rem",
+                color: "#06B6D4",
+                fontSize: "0.75rem",
+                fontWeight: 600,
+                cursor: "pointer",
+                transition: "all 0.2s ease",
+                textAlign: "center"
+              }}
+            >
+              Professor
+            </button>
+            <button
+              type="button"
+              onClick={() => handleQuickFill("aluno@dominus.com", "aluno123456")}
+              className="test-account-btn student-btn"
+              style={{
+                background: "rgba(168, 85, 247, 0.05)",
+                border: "1px solid rgba(168, 85, 247, 0.2)",
+                borderRadius: "8px",
+                padding: "0.6rem 0.25rem",
+                color: "#A855F7",
+                fontSize: "0.75rem",
+                fontWeight: 600,
+                cursor: "pointer",
+                transition: "all 0.2s ease",
+                textAlign: "center"
+              }}
+            >
+              Aluno
+            </button>
+          </div>
+          
+          <button
+            type="button"
+            onClick={handleInitializeTestAccounts}
+            disabled={initializing}
+            style={{
+              background: "transparent",
+              border: "none",
+              color: "var(--text-muted)",
+              fontSize: "0.7rem",
+              textDecoration: "underline",
+              cursor: "pointer",
+              textAlign: "center",
+              marginTop: "0.25rem"
+            }}
+          >
+            {initializing ? "Configurando contas..." : "Inicializar contas de teste no Firebase"}
+          </button>
+          {initMessage && (
+            <div style={{ fontSize: "0.75rem", color: "#10B981", textAlign: "center", marginTop: "0.25rem" }}>
+              {initMessage}
+            </div>
+          )}
+        </div>
+
       </div>
 
       <style jsx global>{`
@@ -164,6 +341,27 @@ export default function LoginPage() {
         @keyframes spin {
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
+        }
+        .test-account-btn {
+          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .test-account-btn:hover {
+          transform: translateY(-2px);
+        }
+        .admin-btn:hover {
+          background: rgba(212, 255, 0, 0.15) !important;
+          border-color: rgba(212, 255, 0, 0.6) !important;
+          box-shadow: 0 0 10px rgba(212, 255, 0, 0.2);
+        }
+        .teacher-btn:hover {
+          background: rgba(6, 182, 212, 0.15) !important;
+          border-color: rgba(6, 182, 212, 0.6) !important;
+          box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
+        }
+        .student-btn:hover {
+          background: rgba(168, 85, 247, 0.15) !important;
+          border-color: rgba(168, 85, 247, 0.6) !important;
+          box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
         }
       `}</style>
     </div>

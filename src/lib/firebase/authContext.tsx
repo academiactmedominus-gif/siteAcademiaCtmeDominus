@@ -32,7 +32,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           const userDocRef = doc(db, "users", currentUser.uid);
           const userDocSnap = await getDoc(userDocRef);
           if (userDocSnap.exists()) {
-            setRole(userDocSnap.data().role as "student" | "teacher" | "admin");
+            const userData = userDocSnap.data();
+            if (userData.disabled) {
+              await signOut(auth);
+              setUser(null);
+              setRole(null);
+            } else {
+              setRole(userData.role as "student" | "teacher" | "admin");
+            }
           } else {
             // Default role if not found in db (could happen if created directly in Auth console)
             setRole("student");

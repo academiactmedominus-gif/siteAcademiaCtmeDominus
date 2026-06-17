@@ -18,11 +18,10 @@ Este documento resume o estado do desenvolvimento do website da Academia Dominus
   - `src/app/page.tsx`: Landing Page completa com Hero, ticker de modalidades (carrossel contínuo sem pausas), mosaico de fotos ("Sobre Nós" com alinhamento vertical customizado de 80% na foto de grupo para focar no time) e cards descritivos das modalidades.
   - `src/app/blog/page.tsx`: Listagem de posts com fallbacks.
   - `src/app/blog/[slug]/page.tsx`: Visualização individual de artigos (corrigido o caminho da pasta da rota dinâmica de `[slug/]` para `[slug]/` e implementado renderizador de Markdown customizado com suporte a negrito, títulos H3 preservando caixa e listas).
-- **Áreas Restritas (Dashboards)**:
-  - `src/app/login/page.tsx`: Tela de login segura direcionando usuários para seus respectivos portais.
+  - `src/app/login/page.tsx`: Tela de login com integração de botões de Acesso de Teste (Admin, Professor, Aluno) e inicializador dinâmico de contas de teste no Firebase.
   - `src/app/dashboard/aluno/page.tsx`: Ficha de treino ativa com tabelas interativas e suporte a marcação de conclusão de exercícios.
   - `src/app/dashboard/professor/page.tsx`: Console de busca de alunos e prescrição dinâmica de fichas de treino.
-  - `src/app/dashboard/admin/page.tsx`: Painel de administração com Abas para CRUD de usuários (estudantes/professores) e blog (com upload de imagens).
+  - `src/app/dashboard/admin/page.tsx`: Painel de administração com Abas para CRUD e edição de usuários, controle de ativação/desativação de acesso, visualização rápida de posts (ícone de olho) e prescrição de treinos integrada (mesmo fluxo do professor).
 - **Segurança e Validação**:
   - Criadas as regras de segurança locais `firestore.rules` e `storage.rules`.
   - Executado o teste de build (`npm run build`) com **100% de sucesso**.
