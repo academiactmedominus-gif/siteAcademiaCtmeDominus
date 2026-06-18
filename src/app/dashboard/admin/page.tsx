@@ -280,8 +280,14 @@ export default function AdminDashboard() {
         const formData = new FormData();
         formData.append("file", postImageFile);
 
+        // Get Firebase Auth ID Token for authentication
+        const token = user ? await user.getIdToken() : "";
+
         const res = await fetch("/api/blog/upload", {
           method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`
+          },
           body: formData,
         });
 

@@ -25,7 +25,8 @@
     {
       "name": "Unauthenticated API File Upload",
       "paths": [
-        "src/app/api/blog/upload/route.ts"
+        "src/app/api/blog/upload/route.ts",
+        "src/app/dashboard/admin/page.tsx"
       ]
     }
   ]
