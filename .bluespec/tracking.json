@@ -1,33 +1,4 @@
 {
   "name": "blue-spec",
-  "entries": [
-    {
-      "name": "Firebase Client Initialization",
-      "paths": [
-        "src/lib/firebase/config.ts"
-      ]
-    },
-    {
-      "name": "Firebase Database and Storage Rules",
-      "paths": [
-        "firestore.rules",
-        "storage.rules"
-      ]
-    },
-    {
-      "name": "Role-based Route Redirection",
-      "paths": [
-        "src/app/dashboard/admin/page.tsx",
-        "src/app/dashboard/professor/page.tsx",
-        "src/app/dashboard/aluno/page.tsx"
-      ]
-    },
-    {
-      "name": "Unauthenticated API File Upload",
-      "paths": [
-        "src/app/api/blog/upload/route.ts",
-        "src/app/dashboard/admin/page.tsx"
-      ]
-    }
-  ]
+  "entries": []
 }
