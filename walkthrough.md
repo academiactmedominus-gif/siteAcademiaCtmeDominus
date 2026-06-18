@@ -107,3 +107,15 @@ Para restabelecer as imagens reais da academia perdidas durante a limpeza do dir
 - **Desativação de Usuários**: Adicionado ícone de status (Ativo/Desativado) que bloqueia ou libera o acesso de qualquer usuário. O fluxo de autenticação foi modificado para recusar logins e desconectar automaticamente contas desativadas.
 - **Integração de Prescrição no Admin**: O administrador agora possui acesso completo à aba "Treinos" dentro do seu próprio dashboard, permitindo buscar alunos e gerenciar fichas e exercícios com as mesmas funcionalidades do professor.
 
+---
+
+## 9. Verificação de Controles de Segurança (Blue Spec)
+Com a conclusão do ciclo de segurança, foram verificados e confirmados 4 controles aplicados no sistema:
+- **Upload Seguro de Arquivos**: A rota do endpoint `/api/blog/upload` agora verifica a sessão do usuário no servidor através da API do Google Identity Toolkit, valida se o perfil do usuário possui a role `admin` no Firestore e bloqueia arquivos com mais de 5MB ou que não sejam imagens. O uploader no painel do administrador foi modificado para anexar o Firebase Auth ID Token no cabeçalho de autorização.
+- **Proteção de Rotas baseada em Papéis**: Os painéis de controle do aluno, professor e admin implementam guards client-side no hook `useEffect` com suporte a redirecionamento seguro para evitar o acesso indevido às interfaces. A renderização exibe um spinner de carregamento para evitar o vazamento temporário de informações (layout flashes) antes da conclusão do carregamento do estado.
+- **Políticas e Regras de Segurança do Firebase**: As regras de Firestore (`firestore.rules`) e Firebase Storage (`storage.rules`) foram auditadas para restringir a gravação e leitura a usuários e papéis devidamente autorizados no servidor do Firebase.
+- **Inicialização Dinâmica do Firebase**: A inicialização do cliente Firebase em `src/lib/firebase/config.ts` utiliza exclusivamente variáveis de ambiente (`process.env.NEXT_PUBLIC_FIREBASE_*`), evitando chaves expostas no Git.
+
+Todos os 4 riscos foram confirmados como fechados (`✅ Risk closed`) e receberam baixa ("stand down"), deixando o ciclo de segurança em estado de conformidade estável.
+
+

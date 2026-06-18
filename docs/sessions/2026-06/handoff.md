@@ -28,3 +28,13 @@ Sessão de polimento da responsividade mobile do site da Academia Dominus.
 
 ## Validação Realizada
 - Executado `npm run build` com sucesso completo, validando todas as tipagens de variants do TypeScript e compilando estaticamente as páginas.
+
+### Fase de Verificação de Segurança (Blue Spec Verify)
+- **Execução**: `/bluespec.verify`
+- **Resultados**:
+  - `Unauthenticated API File Upload`: **✅ Risk closed**. Comprovado no servidor (`upload/route.ts`) usando validação com a API do Google Identity Toolkit e no banco de dados Firestore (`role === 'admin'`), e validando no cliente (`admin/page.tsx`) a injeção do cabeçalho de autorização com o token de ID da sessão ativa.
+  - `Role-based Route Redirection`: **✅ Risk closed**. Guards validados no React em cascata e spinner de carregamento no mount evitam que a interface seja exposta visualmente a atores não-autenticados.
+  - `Firebase Database and Storage Rules`: **✅ Risk closed**. Regras de escrita e leitura de coleções e de bucket mapeadas e verificadas em `firestore.rules` e `storage.rules`.
+  - `Firebase Client Initialization`: **✅ Risk closed**. Chaves mantidas seguras via `.env.local` e carregamento dinâmico em `src/lib/firebase/config.ts`.
+- **Stand Down**: Todos os 4 riscos foram dados como finalizados e removidos da fila ativa de pendências de segurança do ciclo de desenvolvimento de software, deixando a suite de auditoria em repouso.
+
