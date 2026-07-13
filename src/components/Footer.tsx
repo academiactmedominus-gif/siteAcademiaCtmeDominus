@@ -71,15 +71,15 @@ export const Footer: React.FC = () => {
           <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.75rem", fontSize: "0.9rem", color: "var(--text-muted)" }}>
             <li style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
               <Clock size={16} className="text-yellow" />
-              <span>Segunda a Sexta: 06:00 - 22:00</span>
+              <span>Segunda a Sexta: 06:00 - 13:00, 14:30 - 22:00</span>
             </li>
             <li style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
               <Clock size={16} className="text-yellow" />
-              <span>Sábado: 08:00 - 14:00</span>
+              <span>Sábado: 08:00 - 12:00</span>
             </li>
             <li style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
               <Clock size={16} className="text-yellow" />
-              <span>Domingo: Fechado</span>
+              <span>Domingo: 10:00 - 12:00</span>
             </li>
           </ul>
         </div>
