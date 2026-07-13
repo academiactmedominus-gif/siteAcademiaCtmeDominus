@@ -6,7 +6,7 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "fire
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase/config";
 import { useAuth } from "@/lib/firebase/authContext";
-import { Dumbbell, Lock, Mail, Loader, AlertCircle } from "lucide-react";
+import { Dumbbell, Lock, Mail, Loader, AlertCircle, Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -14,6 +14,7 @@ export default function LoginPage() {
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [initializing, setInitializing] = useState(false);
@@ -270,14 +271,37 @@ export default function LoginPage() {
               <Lock size={18} style={{ position: "absolute", left: "1rem", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)" }} />
               <input
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 required
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="form-input"
-                style={{ width: "100%", paddingLeft: "2.75rem" }}
+                style={{ width: "100%", paddingLeft: "2.75rem", paddingRight: "2.75rem" }}
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: "absolute",
+                  right: "1rem",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "none",
+                  border: "none",
+                  padding: 0,
+                  cursor: "pointer",
+                  color: "var(--text-muted)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  outline: "none",
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.color = "var(--primary-color)"}
+                onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-muted)"}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
           </div>
 
