@@ -8,6 +8,9 @@ import WhatsappCTA from "@/components/WhatsappCTA";
 export const metadata: Metadata = {
   title: "Academia Dominus - Seu Corpo Aguenta Quase Tudo",
   description: "Treine na academia mais completa com Musculação, Jiu-Jitsu e Treinamento Multi-Funcional. Consulte planos e preços pelo WhatsApp.",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
