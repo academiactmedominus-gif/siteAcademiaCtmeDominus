@@ -4,6 +4,7 @@ import { AuthProvider } from "@/lib/firebase/authContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsappCTA from "@/components/WhatsappCTA";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "Academia Dominus - Seu Corpo Aguenta Quase Tudo",
@@ -28,6 +29,7 @@ export default function RootLayout({
           </main>
           <Footer />
           <WhatsappCTA />
+          <Analytics />
         </AuthProvider>
       </body>
     </html>

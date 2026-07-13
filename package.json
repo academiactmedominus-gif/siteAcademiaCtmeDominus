@@ -10,6 +10,7 @@
     "token": "node count-tokens.js"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "@vercel/blob": "^2.4.0",
     "firebase": "^12.15.0",
     "framer-motion": "^12.40.0",
